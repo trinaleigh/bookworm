@@ -10,9 +10,13 @@ app.get('/', function(request, response) {
   response.render('page/index');
 });
 
-app.get('/books', function(request, response) {
+app.get('/books/:isbn', function(request, response) {
 
-	fetch('http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.isbn=9780486415918&maximumRecords=1&recordSchema=mods')
+	isbn = request.params.isbn;
+
+	url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.isbn=${isbn}&maximumRecords=1&recordSchema=mods`;
+
+	fetch(url)
     .then(function(result) {
         return result.text();
     }).then(function(body) {
