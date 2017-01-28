@@ -12,8 +12,13 @@ app.get('/', function(request, response) {
 
 app.get('/books', function(request, response) {
 
-	result = 'book data here'
-	response.send(result);
+	fetch('http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.isbn=9780486415918&maximumRecords=1&recordSchema=mods')
+    .then(function(result) {
+        return result.text();
+    }).then(function(body) {
+    	console.log(body);
+        response.send(body);
+    });
 
 });
 
