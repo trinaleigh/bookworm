@@ -1,4 +1,6 @@
 footer = document.getElementById("footer")
+input = document.getElementById("isbn")
+form = document.getElementById("form")
 
 function library(isbn, callback){
 	// wikiquote api call to get and format a list of quotes
@@ -13,7 +15,7 @@ function library(isbn, callback){
 
 function showData(rawData){
 
-    $xml = $( rawData ),
+    $xml = $(rawData),
     $article = $xml.find('nonSort').slice(0,1);
     $title = $xml.find('title').slice(0,1);
 
@@ -25,5 +27,15 @@ function showData(rawData){
 
 }
 
-library(9780486415918, showData);
-library(9781476738024, showData);
+// example ISBNS:
+// 9780486415918
+// 9781476738024
+form.addEventListener("submit", addBook)
+
+function addBook(event){
+    event.preventDefault();
+    library(input.value, showData);
+    this.reset();
+}
+
+
