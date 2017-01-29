@@ -1,26 +1,28 @@
-footer = document.getElementById("footer");
-input = document.getElementById("isbn");
-form = document.getElementById("form");
+const display = document.getElementById("all_books");
+const input = document.getElementById("isbn");
+const form = document.getElementById("form");
 
-// example ISBNS:
-// 9780486415918
-// 9781476738024
 form.addEventListener("submit", addBook);
 
+var bookshelf = []
+
 function addBook(event){
+
     event.preventDefault();
-    library(input.value).then(parseData).then(showData);
+
+    library(input.value)
+        .then(parseData)
+        .then(updateShelf)
+        .then(function(){showData(bookshelf, display)});
+
     this.reset();
 }
 
 function library(isbn){
-	// wikiquote api call to get and format a list of quotes
+    // access Library of Congress online catalog
     return $.ajax({
             url: `/books/${isbn}`,
-            dataType: 'xml'
-    //         success: function (data) {
-				// callback(data);
-    //         }            
+            dataType: 'xml'         
 	})
 };
 
@@ -36,7 +38,7 @@ function parseData(rawData){
     author = $author.text();
     dob = $dob.text();
 
-    book = {
+    var book = {
         title, 
         author,
         dob };
@@ -52,11 +54,31 @@ function parseData(rawData){
     })
 };
 
+function updateShelf(book){
 
-function showData(book){
-    newBook = document.createElement("p");
-    newBook.innerHTML = `${book.title}<br>${book.author}: ${book.dob}<br>`;
-    document.body.insertBefore(newBook, footer);
+    bookshelf.push(book);
+
+    return new Promise(function(resolve, reject) {      
+
+        if (bookshelf) {
+            resolve();
+        }
+        else {
+            reject(Error("bookshelf update failed"));
+        }
+    })
+}
+
+function showData(bookshelf, div){
+    while(div.firstChild){
+        div.removeChild(div.firstChild);
+    }
+
+    bookshelf.forEach(function(book){
+        newBook = document.createElement("p");
+        newBook.innerHTML = `${book.title}<br>${book.author}: ${book.dob}<br>`;
+        div.appendChild(newBook);
+    })
 }
 
 
