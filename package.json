@@ -7,7 +7,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node_modules/.bin/babel-node --presets 'react,es2015' src/server.js",
+    "start": "node src/server.js",
     "build": "NODE_ENV=production node_modules/.bin/webpack -p"
   },
   "dependencies": {
