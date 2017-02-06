@@ -1,23 +1,40 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default class Library extends React.Component {
+export default class BookSelector extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {value: ''};
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleChange(event) {
+	  this.setState({value: event.target.value.toUpperCase()});
+	}
+
+  handleSubmit(event) {
+    alert('submitted' + this.state.value);
+    event.preventDefault();
+  }
+
   render() {
-  	
-	return (
-
-
+    return (
       <div>
-	      <form>
-	        <span>ISBN: </span>
-	        <input type="text" id="isbn" placeholder="9780486415918" required/>
-	        <input type="submit" id="submit"/>
+	      <form onSubmit={this.handleSubmit}>
+	        <label>
+	          ISBN: 
+	          <input type="text" name="isbn" placeholder="9780486415918" 
+	          	value={this.state.value} onChange={this.handleChange} required/>
+	        </label>
+	        <input type="submit" value="Submit" />
 	      </form>
-	      <h2>Titles: </h2>
-	      <p>hello world</p>
-      </div>
-      
 
+	      <h2>Titles: </h2>
+	      <p>{this.state.value}</p>
+
+      </div>
     );
   }
 }
+
