@@ -26,21 +26,24 @@ export default class BookSelector extends React.Component {
 
 	    return (
 			<div>
-			  <form onSubmit={this.handleSubmit}>
-			    <label>
-			      ISBN: 
-			      <input type="text" name="isbn" placeholder="9780486415918" 
-			      	value={this.state.value} onChange={this.handleChange} required/>
-			    </label>
-			    <input type="submit" value="Submit" />
-			  </form>
+				<h2>ISBNs</h2>
 
-			  <h2>ISBNs: </h2>
-			  {this.state.isbns.map( book => {
-			  	return <p>{book}</p> 
-			  	}
-			  )}
+				{this.state.isbns.map( book => {
+				  	return <p>{book}</p> 
+				  	}
+			  	)}
+
+				<form onSubmit={this.handleSubmit}>
+					<label>
+					  Add ISBN: 
+					  <input type="text" name="isbn" placeholder="9780486415918" 
+					  	value={this.state.value} onChange={this.handleChange} required/>
+					</label>
+					<input type="submit" value="Submit" />
+				</form>
+
 			  <LibraryData isbns={this.state.isbns} />
+
 			</div>
 	    );
 	}

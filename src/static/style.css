@@ -5,4 +5,9 @@ body {
 footer {
 	margin: auto;
 	text-align: center;
+	font-weight: bold;
+}
+
+a {
+	text-decoration: none;
 }

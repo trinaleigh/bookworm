@@ -72,14 +72,17 @@ export default class BookSelector extends React.Component {
 
 	    return (
 	    	<div> 
-		    	<h2>Information:</h2>
-		    	<button onClick={this.handleUpdate}>
-		    		Refresh
-				</button>
+		    	<h2>Information</h2>
+
 				{this.state.bookshelf.map(book => {
 				  	return <p>{book.title}: {book.author} ({book.dob})</p> 
 					}
 				)}
+
+				<button onClick={this.handleUpdate}>
+		    		Refresh
+				</button>
+				
 			</div>
 	    );
   	}
