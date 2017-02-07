@@ -32,15 +32,33 @@ export default class BookSelector extends React.Component {
 		    var $title = $xml.find('title').slice(0,1);
 		    var $author = $xml.find('namePart').slice(0,1);
 		    var $dob = $xml.find('namePart').slice(1,2);
+		    var $genres = $xml.find('genre')
+		    var $topics = $xml.find('topic')
 
 		    var title = $article.text().toUpperCase() + " " + $title.text().toUpperCase();
 		    var author = $author.text();
 		    var dob = $dob.text();
+		    var genres = []
+		    var topics = []
+
+		    $genres.each(function() {
+		    	if (this.innerHTML != "text") {
+		    		genres.push(this.innerHTML);
+		    	}
+		    })
+
+		    $topics.each(function() {
+		    	if (this.innerHTML != "text") {
+		    		topics.push(this.innerHTML);
+		    	}
+		    })
 
 		    var book = {
 		        title, 
 		        author,
-		        dob };
+		        dob,
+		        genres,
+		        topics };
 
 		    return new Promise(function(resolve, reject) {      
 
@@ -72,16 +90,37 @@ export default class BookSelector extends React.Component {
 
 	    return (
 	    	<div> 
-		    	<h2>Information</h2>
+		    	<h2>Titles</h2>
 
 				{this.state.bookshelf.map(book => {
 				  	return <p>{book.title}: {book.author} ({book.dob})</p> 
-					}
+				}
+				)}
+
+				<h2>Genres</h2>
+
+				{this.state.bookshelf.map(book => {
+
+				  	return <p>{book.genres.join(', ')}</p> 
+				  	
+				}
+				)}
+
+				<h2>Themes</h2>
+
+				{this.state.bookshelf.map(book => {
+
+				  	return <p>{book.topics.join(', ')}</p> 
+				  	
+				}
 				)}
 
 				<button onClick={this.handleUpdate}>
 		    		Refresh
 				</button>
+
+				
+
 				
 			</div>
 	    );
