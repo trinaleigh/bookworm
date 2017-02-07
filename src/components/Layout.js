@@ -13,7 +13,7 @@ export default class Layout extends React.Component {
         <div className="main-content">{this.props.children}</div>
         <footer>
           <p>
-            (footer here)
+            ...the end
           </p>
         </footer>
       </div>

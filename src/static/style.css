@@ -2,3 +2,7 @@ body {
     font-family: Helvetica;
 }
 
+footer {
+	margin: auto;
+	text-align: center;
+}
