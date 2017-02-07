@@ -10,9 +10,20 @@ export default class BookSelector extends React.Component {
 	      bookshelf: []
 	    };
 
+	    this.refreshData = this.refreshData.bind(this);
+	    this.handleUpdate = this.handleUpdate.bind(this);
   	}	
 
   	componentDidMount() {
+  		this.refreshData();
+  	}
+
+  	handleUpdate() {
+  		this.setState({bookshelf: []});
+  		this.refreshData();
+  	}
+
+  	refreshData() {
 
 	  	function parseData(rawData){ 
 		    var $xml = $(rawData);
@@ -53,9 +64,8 @@ export default class BookSelector extends React.Component {
   		this.props.isbns.map (isbn => {
   				library(isbn)
         		.then(parseData)
-        		.then(result => this.setState({value: '', bookshelf : this.state.bookshelf.concat([result])}));
-
-	  		})
+        		.then(result => this.setState({bookshelf : this.state.bookshelf.concat([result])}));
+	  	})
   	}
 
 	render() {
@@ -63,8 +73,11 @@ export default class BookSelector extends React.Component {
 	    return (
 	    	<div> 
 		    	<h2>Information:</h2>
-				{this.state.bookshelf.map( book => {
-				  	return <p>{book.title}: {book.author}, {book.dob}</p> 
+		    	<button onClick={this.handleUpdate}>
+		    		Refresh
+				</button>
+				{this.state.bookshelf.map(book => {
+				  	return <p>{book.title}: {book.author} ({book.dob})</p> 
 					}
 				)}
 			</div>
