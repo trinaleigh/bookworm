@@ -4,36 +4,41 @@ import { Link } from 'react-router';
 export default class BookSelector extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {value: ''};
+		this.state = {value: '', shelf: ["9780486415918 ","9781476738024"]};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	handleChange(event) {
-	  this.setState({value: event.target.value.toUpperCase()});
+		// allow digits only for ISBN input
+		this.setState({value: event.target.value.replace(/\D/g,'')});
 	}
 
   handleSubmit(event) {
-    alert('submitted' + this.state.value);
-    event.preventDefault();
+  	// upon submission, add book to the list
+  	this.setState({value: '', shelf : this.state.shelf.concat([this.state.value])})
+  	event.preventDefault();
   }
 
   render() {
+
     return (
-      <div>
-	      <form onSubmit={this.handleSubmit}>
-	        <label>
-	          ISBN: 
-	          <input type="text" name="isbn" placeholder="9780486415918" 
-	          	value={this.state.value} onChange={this.handleChange} required/>
-	        </label>
-	        <input type="submit" value="Submit" />
-	      </form>
+		<div>
+		  <form onSubmit={this.handleSubmit}>
+		    <label>
+		      ISBN: 
+		      <input type="text" name="isbn" placeholder="9780486415918" 
+		      	value={this.state.value} onChange={this.handleChange} required/>
+		    </label>
+		    <input type="submit" value="Submit" />
+		  </form>
 
-	      <h2>Titles: </h2>
-	      <p>{this.state.value}</p>
-
-      </div>
+		  <h2>Bookshelf: </h2>
+		  {this.state.shelf.map( book => {
+		  	return <p>{book}</p> 
+		  	}
+		  )}
+		</div>
     );
   }
 }
