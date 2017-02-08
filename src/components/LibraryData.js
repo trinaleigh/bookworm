@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import { Link } from 'react-router';
+import Bubbles from './Bubbles.js';
 
 export default class BookSelector extends React.Component {
 	constructor(props) {
@@ -88,6 +89,13 @@ export default class BookSelector extends React.Component {
 
 	render() {
 
+		var allThemes = []
+		this.state.bookshelf.forEach(book => {
+			book.topics.forEach(topic => {
+				allThemes.push(topic);
+			})
+		})
+
 	    return (
 	    	<div> 
 		    	<h2>Titles</h2>
@@ -114,6 +122,8 @@ export default class BookSelector extends React.Component {
 				  	
 				}
 				)}
+
+				<Bubbles keywords={allThemes}/>
 
 				<button onClick={this.handleUpdate}>
 		    		Refresh
