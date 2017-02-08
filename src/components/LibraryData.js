@@ -42,13 +42,13 @@ export default class BookSelector extends React.Component {
 		    var topics = []
 
 		    $genres.each(function() {
-		    	if (this.innerHTML != "text") {
+		    	if (this.innerHTML != "text" && ! genres.includes(this.innerHTML)) {  // ignore generic "text" tag and de-dupe
 		    		genres.push(this.innerHTML);
 		    	}
 		    })
 
 		    $topics.each(function() {
-		    	if (this.innerHTML != "text") {
+		    	if (this.innerHTML != "text" && ! topics.includes(this.innerHTML)) {
 		    		topics.push(this.innerHTML);
 		    	}
 		    })

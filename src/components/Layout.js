@@ -10,6 +10,14 @@ export default class Layout extends React.Component {
           <h1>hello, bookworm!</h1>
           </Link>
         </header>
+      <div className = "navbar">
+          <Link to={`/`}>
+          <p>Library</p>
+          </Link>
+          <Link to={`/explorer`}>
+          <p>Explorer</p>
+          </Link>
+      </div>
         <div className="main-content">{this.props.children}</div>
         <footer>
           <p>

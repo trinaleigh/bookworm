@@ -1,5 +1,12 @@
+html {
+	min-height: 100%;
+	position: relative;
+}
+
 body {
     font-family: Helvetica;
+    margin: 0px 0px 100px 0px;
+    padding: 20px;
 }
 
 footer {
@@ -10,4 +17,22 @@ footer {
 
 a {
 	text-decoration: none;
+}
+
+.navbar {
+	display: flex;
+	flex-direction: row;
+}
+
+.navbar p {
+	padding: 10px;
+}
+
+footer {
+	height: 100px;
+	width: 100%;
+	position: absolute;
+    left: 0;
+    bottom: 0;
+    text-align: center;
 }
