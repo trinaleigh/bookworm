@@ -89,6 +89,13 @@ export default class BookSelector extends React.Component {
 
 	render() {
 
+		var allGenres = []
+		this.state.bookshelf.forEach(book => {
+			book.genres.forEach(genre => {
+				allGenres.push(genre);
+			})
+		})
+
 		var allThemes = []
 		this.state.bookshelf.forEach(book => {
 			book.topics.forEach(topic => {
@@ -114,6 +121,8 @@ export default class BookSelector extends React.Component {
 				}
 				)}
 
+				<Bubbles keywords={allGenres}/>
+
 				<h2>Themes</h2>
 
 				{this.state.bookshelf.map(book => {
@@ -128,9 +137,6 @@ export default class BookSelector extends React.Component {
 				<button onClick={this.handleUpdate}>
 		    		Refresh
 				</button>
-
-				
-
 				
 			</div>
 	    );

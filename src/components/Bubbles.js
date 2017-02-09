@@ -83,7 +83,6 @@ export default class Bubbles extends React.Component {
 					.attr("dy", `1em`)
 					.attr("x", `0`)
 			}
-
 		}
 	}	
 
