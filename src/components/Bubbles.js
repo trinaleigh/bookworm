@@ -38,7 +38,7 @@ export default class Bubbles extends React.Component {
 		    				"children" : wordList};
 
 	  		const h = 500;
-			const w = h;
+			const w = 500;
 			const r = Math.max(h,w)/2;
 
 			var color = d3.scaleOrdinal().range(["#3C3B5C", "#D53939", "#FFB563", "#7B3C59"]);
@@ -55,36 +55,34 @@ export default class Bubbles extends React.Component {
 			    .attr("height", h)
 			    .append("g")
 
-			d3.json(wordJSON, function(data) {
 
-				var root = d3.hierarchy(wordJSON)
-				    .sum(function(d) { return d.size; })
-				    .sort(null);
+			var root = d3.hierarchy(wordJSON)
+			    .sum(function(d) { return d.size; })
+			    .sort(null);
 
-				bubble(root);
+			bubble(root);
 
-				var node = svg.selectAll("node")
-					.data(root.leaves())
-					.enter()
-					.append("g")
-					.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+			var node = svg.selectAll("node")
+				.data(root.leaves())
+				.enter()
+				.append("g")
+				.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
 
-				node.append("circle")
-					.attr("r", function(d) { return d.r; })
-					.style("fill", function (d) {return color(d.data.name)})
+			node.append("circle")
+				.attr("r", function(d) { return d.r; })
+				.style("fill", function (d) {return color(d.data.name)})
 
-				var text = node.append("text")
-					.attr("y", function(d){return `${d.data.name.split(' ').length/-2}em`})
-					.style("text-anchor", "middle")
-					.attr("class","chart_label")
+			var text = node.append("text")
+				.attr("y", function(d){return `${d.data.name.split(' ').length/-2}em`})
+				.style("text-anchor", "middle")
+				.attr("class","chart_label")
 
-				for (let i = 0; i <4 ; i++){
-					text.append("tspan")    
-						.text(function(d) { return d.data.name.split(' ')[i]; })
-						.attr("dy", `1em`)
-						.attr("x", `0`)
-				}
-			})
+			for (let i = 0; i <4 ; i++){
+				text.append("tspan")    
+					.text(function(d) { return d.data.name.split(' ')[i]; })
+					.attr("dy", `1em`)
+					.attr("x", `0`)
+			}
 
 		}
 	}	
