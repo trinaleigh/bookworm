@@ -1,6 +1,6 @@
 * {
-	--primary: #364F6B;
-	--secondary: #3FC1C9;
+	--primary: #14103B;
+	--secondary: #6789BA;
 }
 
 html {
@@ -55,6 +55,10 @@ footer {
     text-align: center;
 }
 
+.data_text {
+
+}
+
 .data_viz {
 	display: flex;
 	direction: row;
@@ -70,3 +74,19 @@ footer {
 	fill: white;
 }
 
+button, input[type=submit], input[type=text] {
+	font-size: 18px;
+	padding: 10px;
+	color: var(--secondary);
+	border: 2px solid var(--secondary);
+	background-color: white;
+	margin: 5px;
+}
+
+button:focus, input[type=submit]:focus, input[type=text]:focus {
+  outline: none;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}

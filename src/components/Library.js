@@ -6,7 +6,7 @@ export default class BookSelector extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {value: '', isbns: ["9780486415918 ","9781476738024"]};
+		this.state = {value: '', isbns: ["9781476738024","9780486415918"]};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
@@ -26,21 +26,23 @@ export default class BookSelector extends React.Component {
 
 	    return (
 			<div>
-				<h2>ISBNs</h2>
-
-				{this.state.isbns.map( book => {
-				  	return <p>{book}</p> 
-				  	}
-			  	)}
 
 				<form onSubmit={this.handleSubmit}>
 					<label>
-					  Add ISBN: 
+					  <h2>Add ISBN: </h2> 
 					  <input type="text" name="isbn" placeholder="9780486415918" 
 					  	value={this.state.value} onChange={this.handleChange} required/>
 					</label>
 					<input type="submit" value="Submit" />
 				</form>
+					
+				<div className="data_text">
+					<h2>ISBNs</h2>
+					{this.state.isbns.map(isbn => {
+					  	return <p>{isbn}</p> 
+					  	}
+				  	)}	
+				</div>
 
 			  <LibraryData isbns={this.state.isbns} />
 

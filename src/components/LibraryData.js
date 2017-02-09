@@ -105,12 +105,19 @@ export default class BookSelector extends React.Component {
 
 	    return (
 	    	<div> 
+
+	    		<button onClick={this.handleUpdate}>
+		    		Refresh Data
+				</button>
+
+	    		<div className="data_text">
 		    	<h2>Titles</h2>
 
 				{this.state.bookshelf.map(book => {
 				  	return <p>{book.title}: {book.author} ({book.dob})</p> 
 				}
 				)}
+				</div>
 
 				<div className="data_viz">
 					<div className="bubble_container">
@@ -124,9 +131,7 @@ export default class BookSelector extends React.Component {
 					</div>
 				</div>
 
-				<button onClick={this.handleUpdate}>
-		    		Refresh
-				</button>
+
 				
 			</div>
 	    );
