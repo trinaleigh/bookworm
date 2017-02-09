@@ -11,7 +11,7 @@ export default class Layout extends React.Component {
           </Link>
         </header>
       <div className = "navbar">
-          <Link to={`/`}>
+          <Link to="/">
           <p>Library</p>
           </Link>
           <Link to={`/explorer`}>
