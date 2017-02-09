@@ -44,7 +44,7 @@ export default class BookSelector extends React.Component {
 
 		    $genres.each(function() {
 		    	if (this.innerHTML != "text" && ! genres.includes(this.innerHTML)) {  // ignore generic "text" tag and de-dupe
-		    		genres.push(this.innerHTML);
+		    		genres.push(this.innerHTML.replace('.',''));  // remove trailing period
 		    	}
 		    })
 
@@ -112,27 +112,17 @@ export default class BookSelector extends React.Component {
 				}
 				)}
 
-				<h2>Genres</h2>
+				<div className="data_viz">
+					<div className="bubble_container">
+						<h2>Genres</h2>
+						<Bubbles keywords={allGenres}/>
+					</div>
 
-				{this.state.bookshelf.map(book => {
-
-				  	return <p>{book.genres.join(', ')}</p> 
-				  	
-				}
-				)}
-
-				<Bubbles keywords={allGenres}/>
-
-				<h2>Themes</h2>
-
-				{this.state.bookshelf.map(book => {
-
-				  	return <p>{book.topics.join(', ')}</p> 
-				  	
-				}
-				)}
-
-				<Bubbles keywords={allThemes}/>
+					<div className="bubble_container">
+						<h2>Themes</h2>
+						<Bubbles keywords={allThemes}/>
+					</div>
+				</div>
 
 				<button onClick={this.handleUpdate}>
 		    		Refresh
