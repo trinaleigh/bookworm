@@ -15,12 +15,6 @@ body {
     color: var(--primary);
 }
 
-footer {
-	margin: auto;
-	text-align: center;
-	font-weight: bold;
-}
-
 a {
 	text-decoration: none;
 }
@@ -53,6 +47,8 @@ footer {
     left: 0;
     bottom: 0;
     text-align: center;
+    font-weight: bold;
+    margin: auto;
 }
 
 .data_text {

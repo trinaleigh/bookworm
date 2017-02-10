@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var fetch = require('node-fetch');
+var cheerio = require('cheerio');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -20,9 +21,37 @@ app.get('/books/:isbn', function(request, response) {
     .then(function(result) {
         return result.text();
     }).then(function(body) {
-    	console.log(body);
         response.send(body);
     });
+
+});
+
+app.get('/explore/store', function(request, response) {
+
+  url = "http://www.greenlightbookstore.com/staffpicks";
+
+  fetch(url)
+      .then(function(result){
+          return result.text();
+      }).then(function(body) {
+            var $ = cheerio.load(body);
+
+            var title;
+            var json = { title : ""};
+
+            $('.abaproduct-title').filter(function(){
+
+                var data = $(this);
+
+                title = data.children().first().children().first().text();
+
+                json.title = title;
+
+            })
+
+            response.send(json);
+
+      })
 
 });
 
