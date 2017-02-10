@@ -8,7 +8,10 @@ export default class Explorer extends React.Component {
 	    super(props);
 
 	    this.state = {
-	      recommendation: ""
+	      recommendation: "",
+	      author: "",
+	      isbn: "",
+	      url: ""
 	    };
 
 	    this.refreshData = this.refreshData.bind(this);
@@ -28,12 +31,12 @@ export default class Explorer extends React.Component {
 
 	  	function parseData(rawData){ 
 
-	  		var recommendation = rawData.title;
+	  		var data = rawData;
 
 		    return new Promise(function(resolve, reject) {      
 
-		        if (recommendation) {
-		            resolve(recommendation);
+		        if (data) {
+		            resolve(data);
 		        }
 		        else {
 		            reject(Error("parsing failed"));
@@ -44,7 +47,7 @@ export default class Explorer extends React.Component {
 	  	function library(){
 		    // access bookstore
 		    return $.ajax({
-		            url: `/explore/store`,
+		            url: `/staffpicks`,
 		            dataType: 'json'         
 			})
 		};
@@ -52,7 +55,7 @@ export default class Explorer extends React.Component {
   		
 		library()
 			.then(parseData)
-			.then(result => this.setState({recommendation : result}));
+			.then(result => this.setState({recommendation : result.title, author: result.author, isbn: result.isbn, url: result.url}));
 	  	
   	}
 	
@@ -60,8 +63,11 @@ export default class Explorer extends React.Component {
 
 	    return (
 			<div>
-				<h2>Recommendations</h2>
-				<p>read: {this.state.recommendation}</p>
+				<h2>Recommended</h2>
+				<p>{this.state.recommendation}</p>
+				<p>{this.state.author}</p>
+				<p>{this.state.isbn}</p>
+				<p>from <a href={this.state.url}>employee picks</a></p>
 			</div>
 	    );
 	}

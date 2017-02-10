@@ -26,9 +26,12 @@ app.get('/books/:isbn', function(request, response) {
 
 });
 
-app.get('/explore/store', function(request, response) {
+app.get('/staffpicks', function(request, response) {
 
-  url = "http://www.greenlightbookstore.com/staffpicks";
+  urls = ["http://www.greenlightbookstore.com/staffpicks","http://www.bookpeople.com/staff-picks"];
+
+  var n = Math.floor(Math.random()*urls.length);
+  url = urls[n];
 
   fetch(url)
       .then(function(result){
@@ -36,20 +39,26 @@ app.get('/explore/store', function(request, response) {
       }).then(function(body) {
             var $ = cheerio.load(body);
 
-            var title;
-            var json = { title : ""};
+            var bookList = [];
 
-            $('.abaproduct-title').filter(function(){
+            // get details for staff picks
+            $('.abaproduct-details').filter(function(){
 
                 var data = $(this);
 
-                title = data.children().first().children().first().text();
+                var recommendation = { title : "", author : "", isbn: "", url: url};
 
-                json.title = title;
+                recommendation.title = data.children('.abaproduct-title').text();
+                recommendation.author = data.children('.abaproduct-authors').text();
+                recommendation.isbn = data.children('.abaproduct-isbn').text();
+
+                bookList.push(recommendation);
 
             })
 
-            response.send(json);
+            // display a random book from the list
+            var i = Math.floor(Math.random()*bookList.length);
+            response.send(bookList[i]);
 
       })
 
