@@ -6,7 +6,7 @@ export default class BookSelector extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {value: '', isbns: ["9781476738024","9780486415918"]};
+		this.state = {value: '', isbns: ["9781476738024","9780486415918", "9780425274866"]};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
@@ -35,7 +35,7 @@ export default class BookSelector extends React.Component {
 					</label>
 					<input type="submit" value="Submit" />
 				</form>
-					
+
 				<div className="data_text">
 					<h2>ISBNs</h2>
 					{this.state.isbns.map(isbn => {

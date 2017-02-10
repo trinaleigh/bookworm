@@ -28,7 +28,10 @@ app.get('/books/:isbn', function(request, response) {
 
 app.get('/staffpicks', function(request, response) {
 
-  urls = ["http://www.greenlightbookstore.com/staffpicks","http://www.bookpeople.com/staff-picks"];
+  urls = ["http://www.greenlightbookstore.com/staffpicks",
+              "http://www.bookpeople.com/staff-picks", 
+              "http://www.inkwoodbooks.com/storepicks",
+              "http://www.tatteredcover.com/tc-staff-picks"];
 
   var n = Math.floor(Math.random()*urls.length);
   url = urls[n];
@@ -39,6 +42,8 @@ app.get('/staffpicks', function(request, response) {
       }).then(function(body) {
             var $ = cheerio.load(body);
 
+            var store = $('title').text()
+
             var bookList = [];
 
             // get details for staff picks
@@ -46,7 +51,7 @@ app.get('/staffpicks', function(request, response) {
 
                 var data = $(this);
 
-                var recommendation = { title : "", author : "", isbn: "", url: url};
+                var recommendation = { title : "", author : "", isbn: "", url: url, store: store};
 
                 recommendation.title = data.children('.abaproduct-title').text();
                 recommendation.author = data.children('.abaproduct-authors').text();

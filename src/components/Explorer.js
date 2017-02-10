@@ -23,7 +23,6 @@ export default class Explorer extends React.Component {
   	}
 
   	handleUpdate() {
-  		this.setState({bookshelf: []});
   		this.refreshData();
   	}
 
@@ -55,8 +54,11 @@ export default class Explorer extends React.Component {
   		
 		library()
 			.then(parseData)
-			.then(result => this.setState({recommendation : result.title, author: result.author, isbn: result.isbn, url: result.url}));
-	  	
+			.then(result => this.setState({recommendation : result.title, 
+											author: result.author, 
+											isbn: result.isbn, 
+											url: result.url, 
+											store: result.store}));
   	}
 	
   	render() {
@@ -67,7 +69,10 @@ export default class Explorer extends React.Component {
 				<p>{this.state.recommendation}</p>
 				<p>{this.state.author}</p>
 				<p>{this.state.isbn}</p>
-				<p>from <a href={this.state.url}>employee picks</a></p>
+				<p>from: <strong><a href={this.state.url}>{this.state.store}</a></strong></p>
+				<button onClick={this.handleUpdate}>
+		    		Refresh
+				</button>
 			</div>
 	    );
 	}
