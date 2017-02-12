@@ -35,12 +35,17 @@ export default class BookSelector extends React.Component {
 		    var $dob = $xml.find('namePart').slice(1,2);
 		    var $genres = $xml.find('genre')
 		    var $topics = $xml.find('topic')
+		    var $extent = $xml.find('extent')
 
 		    var title = $article.text().toUpperCase() + " " + $title.text().toUpperCase();
 		    var author = $author.text();
 		    var dob = $dob.text();
 		    var genres = []
 		    var topics = []
+		    var extent = $extent.text()
+		    var pageStart = extent.search(/\d/)
+		    var pageEnd = extent.search("p")
+		    var pages = extent.slice(pageStart,pageEnd)
 
 		    $genres.each(function() {
 		    	if (this.innerHTML != "text" && ! genres.includes(this.innerHTML)) {  // ignore generic "text" tag and de-dupe
@@ -59,7 +64,8 @@ export default class BookSelector extends React.Component {
 		        author,
 		        dob,
 		        genres,
-		        topics };
+		        topics,
+		        pages };
 
 		    return new Promise(function(resolve, reject) {      
 
@@ -114,7 +120,9 @@ export default class BookSelector extends React.Component {
 		    	<h2>Titles</h2>
 
 				{this.state.bookshelf.map(book => {
-				  	return <p>{book.title}: {book.author} ({book.dob})</p> 
+				  	return <p><strong>{book.title}</strong><br/> 
+				  	{book.author} ({book.dob})<br/>
+				  	{book.pages} p.</p> 
 				}
 				)}
 				</div>
