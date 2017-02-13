@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import { Link } from 'react-router';
 import Bubbles from './Bubbles.js';
+import Counter from './Counter.js';
 
 export default class BookSelector extends React.Component {
 	constructor(props) {
@@ -44,7 +45,7 @@ export default class BookSelector extends React.Component {
 		    var topics = []
 		    var extent = $extent.text()
 		    var pageStart = extent.search(/\d/)
-		    var pageEnd = extent.search("p")
+		    var pageEnd = extent.search("p") - 1
 		    var pages = extent.slice(pageStart,pageEnd)
 
 		    $genres.each(function() {
@@ -109,6 +110,16 @@ export default class BookSelector extends React.Component {
 			})
 		})
 
+		var pageTotal = 0
+  		var allBooks = Array.from(this.state.bookshelf)
+
+  		if (allBooks.length > 0) {
+  			pageTotal = allBooks.map(a => a.pages)
+  							.reduce(function(a,b){
+				  				return parseInt(a) + parseInt(b);
+  							},"0")
+  		}
+
 	    return (
 	    	<div> 
 
@@ -128,14 +139,20 @@ export default class BookSelector extends React.Component {
 				</div>
 
 				<div className="data_viz">
-					<div className="bubble_container">
+					<div className="viz_container">
 						<h2>Genres</h2>
 						<Bubbles keywords={allGenres}/>
 					</div>
 
-					<div className="bubble_container">
+					<div className="viz_container">
 						<h2>Themes</h2>
 						<Bubbles keywords={allThemes}/>
+					</div>
+
+					<div className="viz_container">
+						<h2>Pages</h2>
+						<Counter counts={this.state.bookshelf}/>
+						<h1 className="count">Total: {pageTotal} pages</h1>
 					</div>
 				</div>
 

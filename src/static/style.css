@@ -70,7 +70,7 @@ footer {
 	flex-wrap: wrap;
 }
 
-.bubble_container {
+.viz_container {
 	text-align: center;
 	padding: 0px 40px 0px 40px;
 }
@@ -95,3 +95,21 @@ button:focus, input[type=submit]:focus, input[type=text]:focus {
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
+
+.axis {
+	fill: var(--primary);
+}
+
+.axis line {
+    stroke: var(--primary);
+}
+
+.axis text {
+    fill: var(--primary);
+    font-size: 18px;
+}  
+
+.bar {
+	fill: var(--secondary);
+}
+
