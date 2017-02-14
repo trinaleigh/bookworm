@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { Link } from 'react-router';
 import Bubbles from './Bubbles.js';
 import Counter from './Counter.js';
+import CounterStack from './CounterStack.js';
 
 export default class BookSelector extends React.Component {
 	constructor(props) {
@@ -150,11 +151,9 @@ export default class BookSelector extends React.Component {
 							<div className="viz_container">
 								<Counter counts={this.state.bookshelf}/>
 							</div>
-							<div className="page_total">
-								<p className="count">Total: {pageTotal} pages</p>
-								<svg height={500} width={300}>
-		        					<rect height={500} width={300} className ="book_stack"/>
-		     					 </svg>
+							<div className="viz_container">
+								<p className="count">{pageTotal} p.</p>
+								<CounterStack counts={this.state.bookshelf}/>
 							</div>
 						</div>
 					</div>
