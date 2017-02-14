@@ -68,6 +68,7 @@ footer {
 	direction: row;
 	justify-content: center;
 	flex-wrap: wrap;
+	align-items: flex-end;
 }
 
 .viz_container {
@@ -113,3 +114,16 @@ input:-webkit-autofill {
 	fill: var(--secondary);
 }
 
+.book_stack {
+	fill: var(--secondary);
+}
+
+.page_total {
+	padding: 0px 40px 40px 40px;
+	text-align: center;
+}
+
+.count {
+	font-size: 24px;
+	margin: 0;
+}

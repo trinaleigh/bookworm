@@ -13,7 +13,7 @@ export default class Counter extends React.Component {
 
   			const h = 500;
 			const w = 700;
-			var margin = {top: 20, right: 40, bottom: 40, left: 20};
+			var margin = {top: 20, right: 40, bottom: 40, left: 100};
 
 			var el = ReactDOM.findDOMNode(this);
 			d3.select(el).html("");
@@ -24,34 +24,32 @@ export default class Counter extends React.Component {
      			.append("g")
     			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
- 			var x = d3.scaleBand()
-				.rangeRound([0, w])
+ 			var y = d3.scaleBand()
+				.rangeRound([0, h])
 				.padding(0.5)
 				.domain(this.props.counts.map(function(d) { return d.author.split(",")[0]; }));
 
-		    var y = d3.scaleLinear()
-		    	.rangeRound([h, 0])
+		    var x = d3.scaleLinear()
+		    	.rangeRound([0, w])
 				.domain([0, d3.max(this.props.counts, function(d) { return d.pages; })]);
 	
 			svg.append("g")
 				.attr("class", "axis")
 				.attr("transform", "translate(0," + h + ")")
-				.call(d3.axisBottom(x));
+				.call(d3.axisBottom(x).ticks(5));
 
 		  	svg.append("g")
 			   .attr("class", "axis")
-			   .attr("transform", "translate(" + w + ",0)")
-			   .call(d3.axisRight(y).ticks(5));
+			   .call(d3.axisLeft(y));
 
 			var barChart = svg.selectAll("svg")
 				.data(this.props.counts)
 				.enter()
 				.append("rect")
 				.attr("class", "bar")
-				.attr("x", function(d){return x(d.author.split(",")[0])})
-				.attr("y", function(d){return y(d.pages)})		
-				.attr("width", x.bandwidth())
-				.attr("height", function(d){return h - y(d.pages)})
+				.attr("y", function(d){return y(d.author.split(",")[0])})
+				.attr("height", y.bandwidth())
+				.attr("width", function(d){return x(d.pages)})
 
   	}	
 

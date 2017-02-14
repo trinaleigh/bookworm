@@ -146,9 +146,19 @@ export default class BookSelector extends React.Component {
 
 					<div className="viz_container">
 						<h2>Pages</h2>
-						<Counter counts={this.state.bookshelf}/>
-						<h1 className="count">Total: {pageTotal} pages</h1>
+						<div className="data_viz">
+							<div className="viz_container">
+								<Counter counts={this.state.bookshelf}/>
+							</div>
+							<div className="page_total">
+								<p className="count">Total: {pageTotal} pages</p>
+								<svg height={500} width={300}>
+		        					<rect height={500} width={300} className ="book_stack"/>
+		     					 </svg>
+							</div>
+						</div>
 					</div>
+
 				</div>
 
 
