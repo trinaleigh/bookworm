@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import LibraryData from './LibraryData';
+import ISBNs from './ISBNs';
 
 export default class BookSelector extends React.Component {
 	
@@ -36,15 +37,7 @@ export default class BookSelector extends React.Component {
 					<input type="submit" value="Submit" />
 				</form>
 
-				<div className="data_text">
-					<h2>ISBNs</h2>
-					{this.state.isbns.map(isbn => {
-					  	return <p>{isbn}</p> 
-					  	}
-				  	)}	
-				</div>
-
-			  <LibraryData isbns={this.state.isbns} />
+			  <ISBNs isbns={this.state.isbns}/>
 
 			</div>
 	    );

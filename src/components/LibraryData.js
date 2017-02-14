@@ -13,19 +13,18 @@ export default class BookSelector extends React.Component {
 	    };
 
 	    this.refreshData = this.refreshData.bind(this);
-	    this.handleUpdate = this.handleUpdate.bind(this);
   	}	
 
   	componentDidMount() {
-  		this.refreshData();
+  		this.refreshData(this.props);
   	}
 
-  	handleUpdate() {
+  	componentWillReceiveProps(nextProps) {
   		this.setState({bookshelf: []});
-  		this.refreshData();
+  		this.refreshData(nextProps);
   	}
 
-  	refreshData() {
+  	refreshData(props) {
 
 	  	function parseData(rawData){ 
 		    var $xml = $(rawData);
@@ -49,7 +48,7 @@ export default class BookSelector extends React.Component {
 		    var pages = extent.slice(pageStart,pageEnd)
 
 		    $genres.each(function() {
-		    	if (this.innerHTML != "text" && ! genres.includes(this.innerHTML)) {  // ignore generic "text" tag and de-dupe
+		    	if (this.innerHTML != ("text" || "novel") && ! genres.includes(this.innerHTML)) {  // ignore generic "text" / "novel" tags and de-dupe
 		    		genres.push(this.innerHTML.replace('.',''));  // remove trailing period
 		    	}
 		    })
@@ -87,7 +86,7 @@ export default class BookSelector extends React.Component {
 			})
 		};
 
-  		this.props.isbns.map (isbn => {
+  		props.isbns.map (isbn => {
   				library(isbn)
         		.then(parseData)
         		.then(result => this.setState({bookshelf : this.state.bookshelf.concat([result])}));
@@ -122,10 +121,6 @@ export default class BookSelector extends React.Component {
 
 	    return (
 	    	<div> 
-
-	    		<button onClick={this.handleUpdate}>
-		    		Refresh Data
-				</button>
 
 	    		<div className="data_text">
 		    	<h2>Titles</h2>
