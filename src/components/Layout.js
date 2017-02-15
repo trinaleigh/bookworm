@@ -6,21 +6,9 @@ export default class Layout extends React.Component {
     return (
       <div className="app">
         <header>
-          <Link to="/">
           <h1>hello, bookworm!</h1>
-          </Link>
         </header>
-      <div className = "navbar">
-          <Link to="/">
-          <p>Home</p>
-          </Link>
-          <Link to={`/library`}>
-          <p>Library</p>
-          </Link>
-          <Link to={`/explorer`}>
-          <p>Explorer</p>
-          </Link>
-      </div>
+        <Navbar/>
         <div className="main-content">{this.props.children}</div>
         <footer>
           <p>
@@ -29,5 +17,34 @@ export default class Layout extends React.Component {
         </footer>
       </div>
     );
+  }
+}
+
+class Navbar extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {page: 'Home'};
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event){
+    this.setState({page: event.target.innerHTML});
+  }
+
+  render() {
+    return (
+      <div className = "navbar">
+          <Link to="/">
+          <p onClick={this.handleChange} className={this.state.page == "Home" ? "active" : "inactive"}>Home</p>
+          </Link>
+          <Link to={`/library`}>
+          <p onClick={this.handleChange} className={this.state.page == "Library" ? "active" : "inactive"}>Library</p>
+          </Link>
+          <Link to={`/explorer`}>
+          <p onClick={this.handleChange} className={this.state.page == "Explorer" ? "active" : "inactive"}>Explorer</p>
+          </Link>
+      </div>
+    )
   }
 }
