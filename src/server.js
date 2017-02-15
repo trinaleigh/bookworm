@@ -15,7 +15,9 @@ app.get('/', function(request, response) {
   response.render('static/index');
 });
 
-app.get('/user', function(request, response) {
+app.get('/user/:userid', function(request, response) {
+
+  var userid = request.params.userid;
 
   MongoClient.connect(mongoUrl, function(err, db) {
     assert.equal(null, err);
@@ -23,7 +25,7 @@ app.get('/user', function(request, response) {
       // Get the documents collection
       var collection = db.collection('readers');
       // Find some documents
-      collection.find({'userid': '001'}).toArray(function(err, docs) {
+      collection.find({'userid': userid}).toArray(function(err, docs) {
         assert.equal(err, null);
         var userISBNs = docs[0].isbns;
         callback(userISBNs);
@@ -33,7 +35,6 @@ app.get('/user', function(request, response) {
       response.send(isbns)});
     db.close();
   });
-
 
 });
 

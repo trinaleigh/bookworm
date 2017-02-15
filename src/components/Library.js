@@ -2,15 +2,34 @@ import React from 'react';
 import { Link } from 'react-router';
 import LibraryData from './LibraryData';
 import ISBNs from './ISBNs';
+import $ from 'jquery';
 
 export default class BookSelector extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {value: '', isbns: ["9781476738024","9780486415918", "9780425274866"]};
+		this.state = {value: '', isbns: []};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
+
+	componentDidMount() {
+  		function getList(userid){
+		    // access user's isbns from mongodb
+		    return $.ajax({
+		            url: `/user/${userid}`,
+		            dataType: 'json'        
+			})
+		}; 
+
+		function loadList(dblist){
+			this.setState({isbns: dblist});
+		}
+
+		getList("001").then(loadList.bind(this));
+
+	}
+
 
 	handleChange(event) {
 		// allow digits only for ISBN input
