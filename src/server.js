@@ -2,6 +2,16 @@ var express = require('express');
 var app = express();
 var fetch = require('node-fetch');
 var cheerio = require('cheerio');
+var MongoClient = require('mongodb').MongoClient
+  , assert = require('assert');
+
+var mongoUrl = process.env.MONGODB_URI;
+
+MongoClient.connect(mongoUrl, function(err, db) {
+  assert.equal(null, err);
+  console.log("Connected successfully to server");
+  db.close();
+});
 
 app.set('port', (process.env.PORT || 5000));
 
