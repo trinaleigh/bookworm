@@ -14,7 +14,7 @@ export default class CounterStack extends React.Component {
   			var libSize = Object.keys(this.props.counts).length;
   			var h = Math.min(500,libSize*75);
 			const w = 300;
-			var margin = {top: 20, right: 0, bottom: 40, left: 0};
+			var margin = {top: 10, right: 0, bottom: 40, left: 0};
 
 			var el = ReactDOM.findDOMNode(this);
 			d3.select(el).html("");

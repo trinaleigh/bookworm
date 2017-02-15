@@ -11,8 +11,16 @@ html {
 
 body {
     margin: 0px 0px 100px 0px;
-    padding: 20px;
+    padding: 0px;
     color: var(--primary);
+}
+
+header {
+	padding: 20px;
+}
+
+.main-content {
+	padding: 0px 20px 0px 20px;
 }
 
 a {
@@ -34,18 +42,21 @@ a:active {
 .navbar {
 	display: flex;
 	flex-direction: row;
+	background-color: var(--secondary);
+	width: 100%;
 }
 
 .navbar p {
-	padding: 10px;
-	font-size: 18px;
-	border: 2px solid var(--primary);
-	background-color: white;
-	margin: 5px;
+	padding: 15px;
+	font-size: 24px;
+	color: white;
+	background-color: var(--secondary);
+	margin: 0px;
 }
 
 .navbar a:hover p {
-	border: 2px solid var(--secondary);
+	color: var(--secondary);
+	background-color: white;
 }
 
 footer {
@@ -87,10 +98,15 @@ button, input[type=submit], input[type=text] {
 	border: 2px solid var(--secondary);
 	background-color: white;
 	margin: 5px;
+	border-radius: 5px;
 }
 
 button:focus, input[type=submit]:focus, input[type=text]:focus {
   outline: none;
+}
+
+button:active {
+	transform: translateY(5px);
 }
 
 input:-webkit-autofill {

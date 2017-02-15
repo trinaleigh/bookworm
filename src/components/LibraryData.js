@@ -128,10 +128,8 @@ export default class BookSelector extends React.Component {
 
 				{this.state.bookshelf.map(book => {
 				  	return <p><strong>{book.title}</strong><br/> 
-				  	{book.author} ({book.dob})<br/>
-				  	{book.pages} p.</p> 
-				}
-				)}
+				  	{book.author} {book.dob != "" ? `(${book.dob})` : ""}</p>
+				})}
 				</div>
 
 				<div className="data_viz">
