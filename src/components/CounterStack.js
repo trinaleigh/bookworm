@@ -25,24 +25,23 @@ export default class CounterStack extends React.Component {
      			.append("g")
     			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
- 			var y = d3.scaleBand()
-				.rangeRound([0, h])
-				.padding(0)
-				.domain(this.props.counts.map(function(d) { return d.author; }));
+		    var y = d3.scaleLinear()
+		    	.rangeRound([0, h])
+				.domain([0, this.props.total]);
 
-		    var x = d3.scaleLinear()
-		    	.rangeRound([0, w])
-				.domain([0, d3.max(this.props.counts, function(d) { return d.pages; })]);
+			var color = d3.scaleOrdinal().range(["#311D3F", "#522546", "#88304E", "#E23E57"]);
+
+			var stackHeight = 0;
 
 			var barChart = svg.selectAll("svg")
 				.data(this.props.counts)
 				.enter()
 				.append("rect")
 				.attr("class", "bar")
-				.attr("y", function(d){return y(d.author)})
-				.attr("x", function(d){return (w - x(d.pages))/2})
-				.attr("height", y.bandwidth)
-				.attr("width", function(d){return x(d.pages)})
+				.attr("y", function(d){stackHeight += y(d.pages); return stackHeight - y(d.pages)})
+				.attr("height", function(d){return y(d.pages)})
+				.attr("width", w)
+				.style("fill", function (d) {return color(d.author)})
 
   	}	
 

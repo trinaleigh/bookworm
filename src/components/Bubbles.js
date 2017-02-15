@@ -41,7 +41,7 @@ export default class Bubbles extends React.Component {
 			const w = 500;
 			const r = Math.max(h,w)/2;
 
-			var color = d3.scaleOrdinal().range(["#14103B", "#F02A71", "#7EC0E4", "#6789BA"]);
+			var color = d3.scaleOrdinal().range(["#311D3F", "#522546", "#88304E", "#E23E57"]);
 
 			var el = ReactDOM.findDOMNode(this);
 			d3.select(el).html("");
