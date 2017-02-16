@@ -11,10 +11,19 @@ export default class BookSelector extends React.Component {
 		this.state = {value: '', isbns: []};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.refreshData = this.refreshData.bind(this);
 	}
 
 	componentDidMount() {
-  		function getList(userid){
+		this.refreshData(this.props);
+	}
+
+	componentWillReceiveProps(nextProps) {
+  		this.refreshData(nextProps);
+  	}
+
+	refreshData(props){
+		function getList(userid){
 		    // access user's isbns from mongodb
 		    return $.ajax({
 		            url: `/user/${userid}`,
@@ -26,8 +35,7 @@ export default class BookSelector extends React.Component {
 			this.setState({isbns: dblist});
 		}
 
-		getList(this.props.userid).then(loadList.bind(this));
-
+		getList(props.userid).then(loadList.bind(this));
 	}
 
 
@@ -37,6 +45,16 @@ export default class BookSelector extends React.Component {
 	}
 
 	handleSubmit(event) {
+
+		function putList(userid, isbn){
+		    // access user's isbns from mongodb
+		    return $.ajax({
+		            url: `/upload/${userid}/${isbn}`,
+			})
+		}; 
+
+		putList(this.props.userid, this.state.value)
+		
 		// upon submission, add book to the list
 		this.setState({value: '', isbns : this.state.isbns.concat([this.state.value])})
 		event.preventDefault();

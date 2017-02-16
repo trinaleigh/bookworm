@@ -31,8 +31,41 @@ app.get('/user/:userid', function(request, response) {
         callback(userISBNs);
       });   
     }
+
     findDocuments(db, function(isbns){
       response.send(isbns)});
+
+    db.close();
+  });
+
+});
+
+
+app.get('/upload/:userid/:isbn', function(request, response, next) {
+
+  var userid = request.params.userid;
+  var isbn = request.params.isbn;
+
+  MongoClient.connect(mongoUrl, function(err, db) {
+    assert.equal(null, err);
+
+    var updateDocument = function(db,callback) {
+      // Get the documents collection
+      var collection = db.collection('readers');
+      // Update document where a is 2, set b equal to 1
+      collection.updateOne({ 'userid' : userid }
+        , { $push: { 'isbns' : isbn } }, function(err, result) {
+        assert.equal(err, null);
+        console.log("added isbn");
+        callback()
+      });  
+    }
+
+    updateDocument(db, function(){
+      console.log("update document callback");
+      next();
+    })
+
     db.close();
   });
 

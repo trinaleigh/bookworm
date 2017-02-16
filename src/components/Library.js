@@ -3,16 +3,32 @@ import { Link } from 'react-router';
 import BookSelector from './BookSelector';
 
 export default class Library extends React.Component {
-	
-	constructor(props) {
-		super(props);
-	}
+  constructor(props) {
+    super(props);
+    this.state = {value: '001'};
 
-  	render() {
+    this.handleChange = this.handleChange.bind(this);
+  }
 
-	    return (
-			<BookSelector userid="001"/>
-	    );
-	}
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  render() {
+    return (
+    <div>
+      <form>
+        <label>
+          Pick username:
+          <select value={this.state.value} onChange={this.handleChange}>
+            <option value="001">1</option>
+            <option value="002">2</option>
+            <option value="003">3</option>
+          </select>
+        </label>
+      </form>
+      <BookSelector userid={this.state.value}/>
+      </div>
+    );
+  }
 }
-
