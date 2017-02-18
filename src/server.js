@@ -15,63 +15,6 @@ app.get('/', function(request, response) {
   response.render('static/index');
 });
 
-app.get('/user/:userid', function(request, response) {
-
-  var userid = request.params.userid;
-
-  MongoClient.connect(mongoUrl, function(err, db) {
-    assert.equal(null, err);
-    var findDocuments = function(db,callback) {
-      // Get the documents collection
-      var collection = db.collection('readers');
-      // Find some documents
-      collection.find({'userid': userid}).toArray(function(err, docs) {
-        assert.equal(err, null);
-        var userISBNs = docs[0].isbns;
-        callback(userISBNs);
-      });   
-    }
-
-    findDocuments(db, function(isbns){
-      response.send(isbns)});
-
-    db.close();
-  });
-
-});
-
-
-app.get('/upload/:userid/:isbn', function(request, response, next) {
-
-  var userid = request.params.userid;
-  var isbn = request.params.isbn;
-
-  MongoClient.connect(mongoUrl, function(err, db) {
-    assert.equal(null, err);
-
-    var updateDocument = function(db,callback) {
-      // Get the documents collection
-      var collection = db.collection('readers');
-      // Update document where a is 2, set b equal to 1
-      collection.updateOne({ 'userid' : userid }
-        , { $push: { 'isbns' : isbn } }, function(err, result) {
-        assert.equal(err, null);
-        console.log("added isbn");
-        callback()
-      });  
-    }
-
-    updateDocument(db, function(){
-      console.log("update document callback");
-      next();
-    })
-
-    db.close();
-  });
-
-});
-
-
 app.get('/books/:isbn', function(request, response) {
 
 	isbn = request.params.isbn;
@@ -127,6 +70,63 @@ app.get('/staffpicks', function(request, response) {
             response.send(bookList[i]);
 
       })
+
+});
+
+
+app.get('/user/:userid', function(request, response) {
+
+  var userid = request.params.userid;
+
+  MongoClient.connect(mongoUrl, function(err, db) {
+    assert.equal(null, err);
+    var findDocuments = function(db,callback) {
+      // Get the documents collection
+      var collection = db.collection('readers');
+      // Find some documents
+      collection.find({'userid': userid}).toArray(function(err, docs) {
+        assert.equal(err, null);
+        var userISBNs = docs[0].isbns;
+        callback(userISBNs);
+      });   
+    }
+
+    findDocuments(db, function(isbns){
+      response.send(isbns)});
+
+    db.close();
+  });
+
+});
+
+
+app.get('/upload/:userid/:isbn', function(request, response, next) {
+
+  var userid = request.params.userid;
+  var isbn = request.params.isbn;
+
+  MongoClient.connect(mongoUrl, function(err, db) {
+    assert.equal(null, err);
+
+    var updateDocument = function(db,callback) {
+      // Get the documents collection
+      var collection = db.collection('readers');
+      // Update document where a is 2, set b equal to 1
+      collection.updateOne({ 'userid' : userid }
+        , { $push: { 'isbns' : isbn } }, function(err, result) {
+        assert.equal(err, null);
+        console.log("added isbn");
+        callback()
+      });  
+    }
+
+    updateDocument(db, function(){
+      console.log("update document callback");
+      next();
+    })
+
+    db.close();
+  });
 
 });
 
