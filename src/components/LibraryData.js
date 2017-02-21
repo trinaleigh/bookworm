@@ -49,7 +49,7 @@ export default class BookSelector extends React.Component {
 		    var pages = extent.slice(pageStart,pageEnd)
 
 		    $genres.each(function() {
-		    	if (this.innerHTML != ("text" || "novel") && ! genres.includes(this.innerHTML)) {  // ignore generic "text" / "novel" tags and de-dupe
+		    	if (! ["text","novel"].includes(this.innerHTML) && ! genres.includes(this.innerHTML)) {  // ignore generic "text" / "novel" tags and de-dupe
 		    		genres.push(this.innerHTML.replace('.',''));  // remove trailing period
 		    	}
 		    })

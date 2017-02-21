@@ -17,13 +17,14 @@ export default class Library extends React.Component {
   render() {
     return (
     <div>
+      <h1>Profile</h1>
       <form>
         <label>
-          Pick username:
+          Select user ID:
           <select value={this.state.value} onChange={this.handleChange}>
-            <option value="001">1</option>
-            <option value="002">2</option>
-            <option value="003">3</option>
+            <option value="001">001</option>
+            <option value="002">002</option>
+            <option value="003">003</option>
           </select>
         </label>
       </form>

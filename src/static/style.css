@@ -95,7 +95,7 @@ footer {
 	fill: white;
 }
 
-button, input[type=submit], input[type=text] {
+button, input[type=submit], input[type=text], select {
 	font-size: 18px;
 	padding: 10px;
 	color: var(--secondary);
@@ -105,7 +105,13 @@ button, input[type=submit], input[type=text] {
 	border-radius: 5px;
 }
 
-button:focus, input[type=submit]:focus, input[type=text]:focus {
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+button:focus, input[type=submit]:focus, input[type=text]:focus, select {
   outline: none;
 }
 
@@ -146,4 +152,8 @@ input:-webkit-autofill {
 .count {
 	font-size: 24px;
 	margin: 0;
+}
+
+form {
+	margin: 10px 0px 10px 0px;
 }
