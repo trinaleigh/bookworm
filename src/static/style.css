@@ -76,18 +76,22 @@ footer {
 
 .data-text {
 	display: flex;
-	direction: row;
+	direction: column;
 	align-items: flex-start;
+	flex-wrap: wrap;
 }
 
 .text-container {
-	max-width: 50%;
-	padding: 0px 50px 0px 0px;
+	display: flex;
+	direction: row;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .text-container p {
 	height: 40px;
-	vertical-align: middle;
+	padding: 0px 75px 0px 0px;
 }
 
 .text-container button {

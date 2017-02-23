@@ -42,7 +42,7 @@ export default class BookSelector extends React.Component {
 
   	refreshData(props) {
 
-	  	function parseData(rawData){ 
+	  	function parseData(rawData, id){ 
 		    var $xml = $(rawData);
 
 		    var $article = $xml.find('nonSort').slice(0,1);
@@ -63,8 +63,10 @@ export default class BookSelector extends React.Component {
 		    var pageEnd = extent.search("p") - 1
 		    var pages = extent.slice(pageStart,pageEnd)
 
+		    var isbn = id;
+
 		    $genres.each(function() {
-		    	if (! ["text","novel"].includes(this.innerHTML) && ! genres.includes(this.innerHTML)) {  // ignore generic "text" / "novel" tags and de-dupe
+		    	if (! ["text","novel","bibliography"].includes(this.innerHTML) && ! genres.includes(this.innerHTML)) {  // ignore generic tags and de-dupe
 		    		genres.push(this.innerHTML.replace('.',''));  // remove trailing period
 		    	}
 		    })
@@ -76,6 +78,7 @@ export default class BookSelector extends React.Component {
 		    })
 
 		    var book = {
+		    	isbn,
 		        title, 
 		        author,
 		        dob,
@@ -104,7 +107,7 @@ export default class BookSelector extends React.Component {
 
   		props.isbns.map (isbn => {
   				library(isbn)
-        		.then(parseData)
+        		.then(result => parseData(result, isbn))
         		.then(result => this.setState({bookshelf : this.state.bookshelf.concat([result])}));
 	  	})
   	}
@@ -137,26 +140,18 @@ export default class BookSelector extends React.Component {
 
 	    return (
 	    	<div>
-	    		<div className="data-text">
 
-	    		<div className="text-container">
+	    		<div className="data-text">
 			    	<h2>Titles</h2>
 					{this.state.bookshelf.map(book => {
-					  	return <p><strong>{book.title}</strong><br/> 
+					  	return <div className = "text-container">
+					  	<p><strong>{book.title}</strong><br/> 
 					  	{book.author} {book.dob != "" ? `(${book.dob})` : ""}</p>
+					  	<p><span>{book.isbn}</span> <button id={book.isbn} onClick={this.removeItem}>X</button></p>
+					  	</div>
 					})}
 				</div>
-				
-	    		<div className="text-container">
-					<h2>ISBNs</h2>
-					{this.props.isbns.map(isbn => {
-					  	return <p><span>{isbn}</span> <button id={isbn} onClick={this.removeItem}>X</button></p>
-					  	}
-				  	)}	
-				</div>
 
-
-				</div>
 
 				<div className="data-viz">
 					<div className="viz-container">
