@@ -6,7 +6,6 @@ export default class Library extends React.Component {
   constructor(props) {
     super(props);
     this.state = {value: '001'};
-
     this.handleChange = this.handleChange.bind(this);
   }
 

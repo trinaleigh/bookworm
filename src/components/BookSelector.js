@@ -74,7 +74,7 @@ export default class BookSelector extends React.Component {
 					<input type="submit" value="Submit" />
 				</form>
 
-			  <ISBNs isbns={this.state.isbns}/>
+			  <ISBNs isbns={this.state.isbns} userid={this.props.userid}/>
 
 			</div>
 	    );

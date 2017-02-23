@@ -121,7 +121,7 @@ app.get('/upload/:userid/:isbn', function(request, response, next) {
     }
 
     updateDocument(db, function(){
-      console.log("update document callback");
+      response.send("added isbn")
       next();
     })
 
@@ -129,6 +129,38 @@ app.get('/upload/:userid/:isbn', function(request, response, next) {
   });
 
 });
+
+
+app.get('/remove/:userid/:isbn', function(request, response, next) {
+
+  var userid = request.params.userid;
+  var isbn = request.params.isbn;
+
+  MongoClient.connect(mongoUrl, function(err, db) {
+    assert.equal(null, err);
+
+    var updateDocument = function(db,callback) {
+      // Get the documents collection
+      var collection = db.collection('readers');
+      // Update document where a is 2, set b equal to 1
+      collection.updateOne({ 'userid' : userid }
+        , { $pull: { 'isbns' : isbn } }, function(err, result) {
+        assert.equal(err, null);
+        console.log("removed isbn");
+        callback()
+      });  
+    }
+
+    updateDocument(db, function(){
+      response.send("removed isbn")
+      next();
+    })
+
+    db.close();
+  });
+
+});
+
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
