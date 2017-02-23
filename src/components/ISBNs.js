@@ -7,22 +7,6 @@ export default class ISBNs extends React.Component {
 
 	constructor(props) {
 		super(props);
-
-		this.removeItem = this.removeItem.bind(this);
-	}
-
-	removeItem(event) {
-
-		function pullList(userid, isbn){
-		    // access user's isbns from mongodb
-		    return $.ajax({
-		            url: `/remove/${userid}/${isbn}`,
-			})
-		}; 
-
-		pullList(this.props.userid, event.target.id)
-			.then(this.props.handler(this.props));
-
 	}
 
 	shouldComponentUpdate(nextProps) {
@@ -38,15 +22,7 @@ export default class ISBNs extends React.Component {
 	    return (
 			<div>
 
-				<div className="data_text">
-					<h2>ISBNs</h2>
-					{this.props.isbns.map(isbn => {
-					  	return <p><span>{isbn}</span> <span id={isbn} onClick={this.removeItem}>X</span></p>
-					  	}
-				  	)}	
-				</div>
-
-			  <LibraryData isbns={this.props.isbns} />
+			  <LibraryData isbns={this.props.isbns} userid={this.props.userid} handler={this.props.handler} />
 
 			</div>
 	    );

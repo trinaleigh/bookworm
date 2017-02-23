@@ -74,11 +74,28 @@ footer {
     margin: auto;
 }
 
-.data_text {
-
+.data-text {
+	display: flex;
+	direction: row;
+	align-items: flex-start;
 }
 
-.data_viz {
+.text-container {
+	max-width: 50%;
+	padding: 0px 50px 0px 0px;
+}
+
+.text-container p {
+	height: 40px;
+	vertical-align: middle;
+}
+
+.text-container button {
+	padding: 5px;
+	margin: 0px 5px 0px 5px;
+}
+
+.data-viz {
 	display: flex;
 	direction: row;
 	justify-content: center;
@@ -86,7 +103,7 @@ footer {
 	align-items: flex-end;
 }
 
-.viz_container {
+.viz-container {
 	text-align: center;
 	padding: 0px 40px 0px 40px;
 }

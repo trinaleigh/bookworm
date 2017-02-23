@@ -13,6 +13,7 @@ export default class BookSelector extends React.Component {
 	      bookshelf: []
 	    };
 
+	    this.removeItem = this.removeItem.bind(this);
 	    this.refreshData = this.refreshData.bind(this);
   	}	
 
@@ -24,6 +25,20 @@ export default class BookSelector extends React.Component {
   		this.setState({bookshelf: []});
   		this.refreshData(nextProps);
   	}
+
+  	removeItem(event) {
+
+		function pullList(userid, isbn){
+		    // access user's isbns from mongodb
+		    return $.ajax({
+		            url: `/remove/${userid}/${isbn}`,
+			})
+		}; 
+
+		pullList(this.props.userid, event.target.id)
+			.then(this.props.handler(this.props));
+
+	}
 
   	refreshData(props) {
 
@@ -121,46 +136,54 @@ export default class BookSelector extends React.Component {
   		}
 
 	    return (
-	    	<div> 
+	    	<div>
+	    		<div className="data-text">
 
-	    		<div className="data_text">
-		    	<h2>Titles</h2>
-
-				{this.state.bookshelf.map(book => {
-				  	return <p><strong>{book.title}</strong><br/> 
-				  	{book.author} {book.dob != "" ? `(${book.dob})` : ""}</p>
-				})}
+	    		<div className="text-container">
+			    	<h2>Titles</h2>
+					{this.state.bookshelf.map(book => {
+					  	return <p><strong>{book.title}</strong><br/> 
+					  	{book.author} {book.dob != "" ? `(${book.dob})` : ""}</p>
+					})}
+				</div>
+				
+	    		<div className="text-container">
+					<h2>ISBNs</h2>
+					{this.props.isbns.map(isbn => {
+					  	return <p><span>{isbn}</span> <button id={isbn} onClick={this.removeItem}>X</button></p>
+					  	}
+				  	)}	
 				</div>
 
-				<div className="data_viz">
-					<div className="viz_container">
+
+				</div>
+
+				<div className="data-viz">
+					<div className="viz-container">
 						<h2>Genres</h2>
 						<Bubbles keywords={allGenres}/>
 					</div>
 
-					<div className="viz_container">
+					<div className="viz-container">
 						<h2>Themes</h2>
 						<Bubbles keywords={allThemes}/>
 					</div>
 
-					<div className="viz_container">
+					<div className="viz-container">
 						<h2>Pages</h2>
-						<div className="data_viz">
-							<div className="viz_container">
-								<Counter counts={this.state.bookshelf}/>
-							</div>
-							<div className="viz_container">
-								<p className="count">{pageTotal} p.</p>
-								<CounterStack counts={this.state.bookshelf} total={pageTotal}/>
-							</div>
-						</div>
+						<Counter counts={this.state.bookshelf}/>
+					</div>
+
+					<div className="viz-container">
+						<p className="count">{pageTotal} p.</p>
+						<CounterStack counts={this.state.bookshelf} total={pageTotal}/>
 					</div>
 
 				</div>
 
+			</div>
 
 				
-			</div>
 	    );
   	}
 }

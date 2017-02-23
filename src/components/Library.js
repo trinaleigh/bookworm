@@ -16,7 +16,7 @@ export default class Library extends React.Component {
   render() {
     return (
     <div>
-      <h1>Profile</h1>
+      <h2>Your Library</h2>
       <form>
         <label>
           Select user ID:
