@@ -13,14 +13,15 @@ export default class ISBNs extends React.Component {
 
 	removeItem(event) {
 
-		function putList(userid, isbn){
+		function pullList(userid, isbn){
 		    // access user's isbns from mongodb
 		    return $.ajax({
 		            url: `/remove/${userid}/${isbn}`,
 			})
 		}; 
 
-		putList(this.props.userid, event.target.id)
+		pullList(this.props.userid, event.target.id)
+			.then(this.props.handler(this.props));
 
 	}
 
