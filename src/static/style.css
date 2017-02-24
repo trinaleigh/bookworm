@@ -182,3 +182,19 @@ input:-webkit-autofill {
 form {
 	margin: 10px 0px 10px 0px;
 }
+
+.story-link a {
+	background-color: var(--primary); 
+	color: white;
+	padding: 5px;
+	border-radius: 2px;
+}
+
+.story-link a:hover {
+    color: var(--secondary) !important;
+    background-color: white !important;
+}
+
+.story-link a:visited {
+    color: white;
+}
