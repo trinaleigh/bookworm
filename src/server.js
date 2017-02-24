@@ -17,7 +17,7 @@ app.get('/', function(request, response) {
 
 app.get('/staffpicks', function(request, response) {
 
-  urls = ['http://www.greenlightbookstore.com/staffpicks',
+  var urls = ['http://www.greenlightbookstore.com/staffpicks',
               'http://www.bookpeople.com/staff-picks', 
               'http://www.inkwoodbooks.com/storepicks',
               'http://www.tatteredcover.com/tc-staff-picks',
@@ -25,7 +25,7 @@ app.get('/staffpicks', function(request, response) {
               'http://www.goldennotebook.com/staff-picks'];
 
   var n = Math.floor(Math.random()*urls.length);
-  url = urls[n];
+  var url = urls[n];
 
   fetch(url)
       .then(function(result){
@@ -63,8 +63,7 @@ app.get('/staffpicks', function(request, response) {
 app.get('/newsfeed', function(request, response) {
 
   // check RSS feeds from book news sources
-  urls = [
-          'http://www.npr.org/rss/rss.php?id=170838685',
+  var urls = ['http://www.npr.org/rss/rss.php?id=170838685',
           'http://rss.nytimes.com/services/xml/rss/nyt/Books.xml',
           'http://www.publishersweekly.com/pw/feeds/section/industry-news/index.xml',
           'https://www.buzzfeed.com/books.xml',
