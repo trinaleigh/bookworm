@@ -38,8 +38,8 @@ export default class Home extends React.Component {
 	    	{this.state.newsFeed.map(item => {
 	    		return <div>
 	    			<h3>{item.story}</h3>
-	    			<p><strong><a href={item.storyLink}>Read more</a></strong></p>
-	    			<p>From <strong><a href={item.sourceLink}>{item.source}</a></strong></p>
+	    			<p><strong><a href={item.storyLink} target="_blank">Read more</a></strong></p>
+	    			<p>From <strong><a href={item.sourceLink} target="_blank">{item.source}</a></strong></p>
 	    			<br/>
 	    		</div>
 	    		
