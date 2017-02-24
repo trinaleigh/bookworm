@@ -56,13 +56,12 @@ export default class BookSelector extends React.Component {
 		    var title = $article.text().toUpperCase() + " " + $title.text().toUpperCase();
 		    var author = $author.text();
 		    var dob = $dob.text();
-		    var genres = []
-		    var topics = []
-		    var extent = $extent.text()
-		    var pageStart = extent.search(/\d/)
-		    var pageEnd = extent.search("p") - 1
-		    var pages = extent.slice(pageStart,pageEnd)
-
+		    var genres = [];
+		    var topics = [];
+		    var extent = $extent.text();
+		    var pageStart = extent.search(/\d/);
+		    var pageEnd = extent.search("p") - 1;
+		    var pages = extent.slice(pageStart,pageEnd) != "" ? extent.slice(pageStart,pageEnd) : "0"; // catch empty value
 		    var isbn = id;
 
 		    $genres.each(function() {
