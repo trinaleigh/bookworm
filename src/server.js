@@ -73,6 +73,51 @@ app.get('/staffpicks', function(request, response) {
 
 });
 
+app.get('/newsfeed', function(request, response) {
+
+  // check RSS feeds from book news sources
+  urls = ['https://www.bookbrowse.com/rss/book_news.rss',
+          'http://www.npr.org/rss/rss.php?id=170838685',
+          'http://www.publishersweekly.com/pw/feeds/section/industry-news/index.xml',
+          'http://rss.nytimes.com/services/xml/rss/nyt/Books.xml'];
+
+  function getFeed(url) {
+      feedItem = fetch(url)
+          .then(function(result){
+              return result.text();
+          }).then(function(body) {
+                var $ = cheerio.load(body, {xmlMode: true});
+
+                var source = $('title').first().text();
+                var sourceLink = $('link').first().text();
+                var story = $('item').first().children('title').text();
+                var storyLink = $('item').first().children('link').text();
+                
+                var feedItem = {
+                  source,
+                  sourceLink,
+                  story,
+                  storyLink };
+
+                return feedItem;
+          })
+
+      return new Promise(function(resolve, reject) {      
+          if (feedItem) {
+              resolve(feedItem);
+          } else {
+            reject(Error("newsfeed failed"));
+          }
+
+        })
+      }
+
+  // send the parsed feed data
+
+  Promise.all(urls.map(getFeed)).then(function(value) {response.send(value)})
+
+});
+
 
 app.get('/user/:userid', function(request, response) {
 
