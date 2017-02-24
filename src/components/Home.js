@@ -1,16 +1,50 @@
 import React from 'react';
+import $ from 'jquery';
 import { Link } from 'react-router';
 
 export default class Home extends React.Component {
 	
 	constructor(props) {
 		super(props);
+
+		this.state = {newsFeed:[]}
+
+		this.refreshData = this.refreshData.bind(this);
 	}
+
+	componentDidMount() {
+  		this.refreshData();
+  	}
+
+  	refreshData() {
+
+	  	function getNews(){
+		    // access newsfeed
+		    return $.ajax({
+		            url: `/newsfeed`,
+		            dataType: 'json'         
+			})
+		};
+
+		getNews()
+			.then(result => this.setState({newsFeed: result}));
+  	}
 
   	render() {
 
 	    return (
-			<p></p>
+	    	<div id="news-feed">
+	    	<h2>Book News</h2>
+	    	{this.state.newsFeed.map(item => {
+	    		return <div>
+	    			<h3>{item.story}</h3>
+	    			<p><strong><a href={item.storyLink}>Read more</a></strong></p>
+	    			<p>From <strong><a href={item.sourceLink}>{item.source}</a></strong></p>
+	    			<br/>
+	    		</div>
+	    		
+	    	})}
+	    	</div>
 	    );
 	}
 }

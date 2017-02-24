@@ -69,7 +69,7 @@ export default class Explorer extends React.Component {
 				<p>{this.state.recommendation}</p>
 				<p>{this.state.author}</p>
 				<p>{this.state.isbn}</p>
-				<p>from: <strong><a href={this.state.url}>{this.state.store}</a></strong></p>
+				<p>From <strong><a href={this.state.url}>{this.state.store}</a></strong></p>
 				<button onClick={this.handleUpdate}>
 		    		Refresh
 				</button>
