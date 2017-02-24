@@ -37,7 +37,6 @@ app.get('/staffpicks', function(request, response) {
               'http://www.inkwoodbooks.com/storepicks',
               'http://www.tatteredcover.com/tc-staff-picks',
               'http://www.elliottbaybook.com/',
-              'http://www.rjjulia.com/staff-suggestions',
               'http://www.goldennotebook.com/staff-picks'];
 
   var n = Math.floor(Math.random()*urls.length);
