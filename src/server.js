@@ -32,10 +32,13 @@ app.get('/books/:isbn', function(request, response) {
 
 app.get('/staffpicks', function(request, response) {
 
-  urls = ["http://www.greenlightbookstore.com/staffpicks",
-              "http://www.bookpeople.com/staff-picks", 
-              "http://www.inkwoodbooks.com/storepicks",
-              "http://www.tatteredcover.com/tc-staff-picks"];
+  urls = ['http://www.greenlightbookstore.com/staffpicks',
+              'http://www.bookpeople.com/staff-picks', 
+              'http://www.inkwoodbooks.com/storepicks',
+              'http://www.tatteredcover.com/tc-staff-picks',
+              'http://www.elliottbaybook.com/',
+              'http://www.rjjulia.com/staff-suggestions',
+              'http://www.goldennotebook.com/staff-picks'];
 
   var n = Math.floor(Math.random()*urls.length);
   url = urls[n];
@@ -76,10 +79,12 @@ app.get('/staffpicks', function(request, response) {
 app.get('/newsfeed', function(request, response) {
 
   // check RSS feeds from book news sources
-  urls = ['https://www.bookbrowse.com/rss/book_news.rss',
+  urls = [
           'http://www.npr.org/rss/rss.php?id=170838685',
+          'http://rss.nytimes.com/services/xml/rss/nyt/Books.xml',
           'http://www.publishersweekly.com/pw/feeds/section/industry-news/index.xml',
-          'http://rss.nytimes.com/services/xml/rss/nyt/Books.xml'];
+          'https://www.buzzfeed.com/books.xml',
+          'https://www.bookbrowse.com/rss/book_news.rss'];
 
   function getFeed(url) {
       feedItem = fetch(url)
