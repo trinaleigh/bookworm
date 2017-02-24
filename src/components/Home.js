@@ -34,7 +34,7 @@ export default class Home extends React.Component {
 
 	    return (
 	    	<div id="news-feed">
-	    	<h2>Book News</h2>
+	    	<h1>Book News</h1>
 	    	{this.state.newsFeed.map(item => {
 	    		return <div>
 	    			<h3>{item.story}</h3>

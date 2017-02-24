@@ -65,7 +65,7 @@ export default class Explorer extends React.Component {
 
 	    return (
 			<div>
-				<h2>Recommended</h2>
+				<h1>Recommended</h1>
 				<p>{this.state.recommendation}</p>
 				<p>{this.state.author}</p>
 				<p>{this.state.isbn}</p>

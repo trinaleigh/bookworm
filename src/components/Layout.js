@@ -2,14 +2,37 @@ import React from 'react';
 import { Link } from 'react-router';
 
 export default class Layout extends React.Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {user: '001'};
+    this.handleChange = this.handleChange.bind(this);
+  }
+  
+  handleChange(event) {
+    this.setState({user: event.target.value});
+  }
+
   render() {
     return (
       <div className="app">
         <header>
           <h1>hello, bookworm!</h1>
+          <div id="login">
+            <form>
+              <label>
+                User ID:
+                <select value={this.state.value} onChange={this.handleChange}>
+                  <option value="001">001</option>
+                  <option value="002">002</option>
+                  <option value="003">003</option>
+                </select>
+              </label>
+            </form>
+         </div>
         </header>
         <Navbar/>
-        <div className="main-content">{this.props.children}</div>
+        <div className="main-content">{React.cloneElement(this.props.children, { userid: this.state.user })}</div>
         <footer>
           <p>
             ...the end

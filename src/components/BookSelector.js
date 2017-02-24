@@ -65,7 +65,9 @@ export default class BookSelector extends React.Component {
 	    return (
 			<div>
 
-				<form onSubmit={this.handleSubmit}>
+			  <ISBNs isbns={this.state.isbns} userid={this.props.userid} handler={this.refreshData}/>
+
+			  	<form onSubmit={this.handleSubmit}>
 					<label>
 					  <h2>Add ISBN: </h2> 
 					  <input type="text" name="isbn" placeholder="9780486415918" 
@@ -73,8 +75,6 @@ export default class BookSelector extends React.Component {
 					</label>
 					<input type="submit" value="Submit" />
 				</form>
-
-			  <ISBNs isbns={this.state.isbns} userid={this.props.userid} handler={this.refreshData}/>
 
 			</div>
 	    );

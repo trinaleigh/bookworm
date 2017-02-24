@@ -141,7 +141,6 @@ export default class BookSelector extends React.Component {
 	    	<div>
 
 	    		<div className="data-text">
-			    	<h2>Titles</h2>
 					{this.state.bookshelf.map(book => {
 					  	return <div className = "text-container">
 					  	<p><strong>{book.title}</strong><br/> 
