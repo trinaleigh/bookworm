@@ -10,25 +10,9 @@ var mongoUrl = process.env.MONGODB_URI;
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/static'));
-app.use(express.logger());
 
 app.get('/', function(request, response) {
   response.render('static/index');
-});
-
-app.get('/books/:isbn', function(request, response) {
-
-	isbn = request.params.isbn;
-
-	url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.isbn=${isbn}&maximumRecords=1&recordSchema=mods`;
-
-	fetch(url)
-    .then(function(result) {
-        return result.text();
-    }).then(function(body) {
-        response.send(body);
-    });
-
 });
 
 app.get('/staffpicks', function(request, response) {
@@ -123,6 +107,21 @@ app.get('/newsfeed', function(request, response) {
 
 });
 
+app.get('/books/:isbn', function(request, response) {
+
+  isbn = request.params.isbn;
+
+  url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.isbn=${isbn}&maximumRecords=1&recordSchema=mods`;
+
+  fetch(url)
+    .then(function(result) {
+        return result.text();
+    }).then(function(body) {
+        response.send(body);
+    });
+
+});
+
 
 app.get('/user/:userid', function(request, response) {
 
@@ -210,7 +209,6 @@ app.get('/remove/:userid/:isbn', function(request, response, next) {
   });
 
 });
-
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
