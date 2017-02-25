@@ -14,7 +14,7 @@ export default class CounterStack extends React.Component {
   			var libSize = Object.keys(this.props.counts).length;
   			var w = Math.min(800,libSize*100);
 			const h = 400;
-			var margin = {top: 20, right: 0, bottom: 20, left: 0};
+			var margin = {top: 20, right: 0, bottom: 20, left: 40};
 
 			var el = ReactDOM.findDOMNode(this);
 			d3.select(el).html("");
@@ -37,7 +37,8 @@ export default class CounterStack extends React.Component {
 				.data(this.props.counts)
 				.enter()
 				.append("g")
-				.attr("transform", function(d) { stackWidth += x(d.pages); return "translate(" + (stackWidth - x(d.pages)) + "," + 0 + ")"; })
+				.attr("transform", function(d) { 
+					stackWidth += x(d.pages); return "translate(" + (stackWidth - x(d.pages)) + "," + 0 + ")"; })
 
 			var book = barChart.append("rect")
 				.attr("class", "bar")
@@ -48,7 +49,8 @@ export default class CounterStack extends React.Component {
 			var text = barChart.append("text")
 				.attr("class","spine")
 				.style("text-anchor", "middle")
-				.text(function(d) {return d.author.split(",")[0]})
+				.text(function(d) {
+					return (d.pages != 0 ? d.author.split(",")[0] : "")}) // only add label if there is a page count
 				.attr("x", function(d){return x(d.pages)/2})
 				.attr("y", h/2);
 

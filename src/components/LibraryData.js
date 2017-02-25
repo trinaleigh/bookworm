@@ -2,7 +2,6 @@ import React from 'react';
 import $ from 'jquery';
 import { Link } from 'react-router';
 import Bubbles from './Bubbles.js';
-import Counter from './Counter.js';
 import CounterStack from './CounterStack.js';
 
 export default class BookSelector extends React.Component {
@@ -164,10 +163,6 @@ export default class BookSelector extends React.Component {
 
 					<div className="viz-container">
 						<h2>Pages</h2>
-						<Counter counts={this.state.bookshelf}/>
-					</div>
-
-					<div className="viz-container">
 						<CounterStack counts={this.state.bookshelf} total={pageTotal}/>
 						<span className="count">{pageTotal} p.</span>
 					</div>
