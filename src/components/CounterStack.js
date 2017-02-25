@@ -12,7 +12,7 @@ export default class CounterStack extends React.Component {
   	componentDidUpdate() {
 
   			var libSize = Object.keys(this.props.counts).length;
-  			var w = Math.min(800,libSize*100);
+  			var w = Math.min(1000,libSize*125);
 			const h = 400;
 			var margin = {top: 20, right: 0, bottom: 20, left: 40};
 
@@ -52,7 +52,8 @@ export default class CounterStack extends React.Component {
 				.text(function(d) {
 					return (d.pages != 0 ? d.author.split(",")[0] : "")}) // only add label if there is a page count
 				.attr("x", function(d){return x(d.pages)/2})
-				.attr("y", h/2);
+				.attr("y", h/2)
+				.attr("dy", "0.5em");
 
   	}	
 
