@@ -33,15 +33,25 @@ export default class CounterStack extends React.Component {
 
 			var stackHeight = 0;
 
-			var barChart = svg.selectAll("svg")
+			var barChart = svg.selectAll("g")
 				.data(this.props.counts)
 				.enter()
-				.append("rect")
+				.append("g")
+				.attr("transform", function(d) { stackHeight += y(d.pages); return "translate(" + 0 + "," + (stackHeight - y(d.pages)) + ")"; })
+
+			var book = barChart.append("rect")
 				.attr("class", "bar")
-				.attr("y", function(d){stackHeight += y(d.pages); return stackHeight - y(d.pages)})
+				// .attr("y", function(d){stackHeight += y(d.pages); return stackHeight - y(d.pages)})
 				.attr("height", function(d){return y(d.pages)})
 				.attr("width", w)
-				.style("fill", function (d) {return color(d.author)})
+				.style("fill", function(d) {return color(d.author)});
+
+			var text = barChart.append("text")
+				.attr("class","spine")
+				.style("text-anchor", "middle")
+				.text(function(d) {return d.author.split(",")[0]})
+				.attr("y", function(d){return y(d.pages)/2})
+				.attr("x", w/2);
 
   	}	
 

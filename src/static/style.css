@@ -198,3 +198,7 @@ form {
 .story-link a:visited {
     color: white;
 }
+
+.spine {
+	fill: white;
+}
