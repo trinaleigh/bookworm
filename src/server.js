@@ -15,8 +15,6 @@ app.get('/', function(request, response) {
   response.render('static/index');
 });
 
-var bookList = [];
-
 app.get('/staffpicks', function(request, response) {
 
   var urls = ['http://www.greenlightbookstore.com/staffpicks',
@@ -37,10 +35,8 @@ app.get('/staffpicks', function(request, response) {
 
             var store = $('title').text()
 
-            bookList = [];
-
             // get details for staff picks
-            $('.abaproduct-details').filter(function(){
+            var recList = $('.abaproduct-details').map(function(){
 
                 var data = $(this);
 
@@ -50,14 +46,15 @@ app.get('/staffpicks', function(request, response) {
                 recommendation.author = data.children('.abaproduct-authors').text();
                 recommendation.isbn = data.children('.abaproduct-isbn').text();
 
-                bookList.push(recommendation);
+                return recommendation;
 
             })
 
+
             // display a random book from the list
-            var i = Math.floor(Math.random()*bookList.length);
-            var choice = bookList[i];
-            bookList = null;
+            var i = Math.floor(Math.random()*recList.length);
+            var choice = recList[i];
+            recList = null;
             response.send(choice);
 
       })
