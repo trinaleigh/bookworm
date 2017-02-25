@@ -68,7 +68,7 @@ app.get('/staffpicks', function(request, response) {
 app.get('/newsfeed', function(request, response) {
 
   // check RSS feeds from book news sources
-  var urls = ['http://www.npr.org/rss/rss.php?id=170838685',
+  var urls = ['http://www.npr.org/rss/rss.php?id=1032',
           'http://rss.nytimes.com/services/xml/rss/nyt/Books.xml',
           'http://www.publishersweekly.com/pw/feeds/section/industry-news/index.xml',
           'https://www.buzzfeed.com/books.xml',
