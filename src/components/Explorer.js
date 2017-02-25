@@ -28,21 +28,6 @@ export default class Explorer extends React.Component {
 
   	refreshData() {
 
-	  	function parseData(rawData){ 
-
-	  		var data = rawData;
-
-		    return new Promise(function(resolve, reject) {      
-
-		        if (data) {
-		            resolve(data);
-		        }
-		        else {
-		            reject(Error("parsing failed"));
-		        }
-		    })
-		};
-
 	  	function library(){
 		    // access bookstore
 		    return $.ajax({
@@ -50,10 +35,8 @@ export default class Explorer extends React.Component {
 		            dataType: 'json'         
 			})
 		};
-
   		
 		library()
-			.then(parseData)
 			.then(result => this.setState({recommendation : result.title, 
 											author: result.author, 
 											isbn: result.isbn, 

@@ -15,6 +15,8 @@ app.get('/', function(request, response) {
   response.render('static/index');
 });
 
+var bookList = [];
+
 app.get('/staffpicks', function(request, response) {
 
   var urls = ['http://www.greenlightbookstore.com/staffpicks',
@@ -35,7 +37,7 @@ app.get('/staffpicks', function(request, response) {
 
             var store = $('title').text()
 
-            var bookList = [];
+            bookList = [];
 
             // get details for staff picks
             $('.abaproduct-details').filter(function(){
