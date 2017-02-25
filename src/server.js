@@ -40,16 +40,20 @@ app.get('/staffpicks', function(request, response) {
 
                 var data = $(this);
 
-                var recommendation = { title : "", author : "", isbn: "", url: url, store: store};
+                var title = data.children('.abaproduct-title').text();
+                var author = data.children('.abaproduct-authors').text();
+                var isbn = data.children('.abaproduct-isbn').text();
 
-                recommendation.title = data.children('.abaproduct-title').text();
-                recommendation.author = data.children('.abaproduct-authors').text();
-                recommendation.isbn = data.children('.abaproduct-isbn').text();
+                var recommendation = { 
+                    title, 
+                    author, 
+                    isbn, 
+                    url, 
+                    store};
 
                 return recommendation;
 
             })
-
 
             // display a random book from the list
             var i = Math.floor(Math.random()*recList.length);
