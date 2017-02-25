@@ -114,6 +114,8 @@ footer {
 .viz-container {
 	text-align: center;
 	padding: 0px 40px 0px 40px;
+	display: flex;
+	flex-direction: row;
 }
 
 .chart_label {
@@ -176,7 +178,10 @@ input:-webkit-autofill {
 
 .count {
 	font-size: 24px;
+	padding: 0px 10px 0px 10px;
 	margin: 0;
+	vertical-align: middle;
+	margin: auto;
 }
 
 form {

@@ -168,8 +168,8 @@ export default class BookSelector extends React.Component {
 					</div>
 
 					<div className="viz-container">
-						<p className="count">{pageTotal} p.</p>
 						<CounterStack counts={this.state.bookshelf} total={pageTotal}/>
+						<span className="count">{pageTotal} p.</span>
 					</div>
 
 				</div>
