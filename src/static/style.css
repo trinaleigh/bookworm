@@ -1,6 +1,7 @@
 * {
 	--primary: #311D3F;
 	--secondary: #88304E;
+	--grey: #AEB6BF;
 	font-family: Helvetica;
 }
 
@@ -206,4 +207,33 @@ form {
 
 .spine {
 	fill: white;
+}
+
+.waiting {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	background: var(--grey);
+	opacity: 0.4;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.waiting p {
+	margin: 400px 0px 0px 0px;
+	width: 50%;
+	max-height: 50px;
+	text-align: center;
+	color: var(--grey);
+	background: white;
+	font-size: 48px;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+.loaded {
+	display: none;
 }

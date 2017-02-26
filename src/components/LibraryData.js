@@ -136,8 +136,17 @@ export default class BookSelector extends React.Component {
   							},"0")
   		}
 
+  		var flag = "waiting"
+  		if (this.props.isbns.length === this.state.bookshelf.length) {
+  			flag = "loaded"
+  		}
+
 	    return (
 	    	<div>
+
+	    		<div className={flag}>
+	    		<p>loading...</p>
+	    		</div>
 
 	    		<div className="data-text">
 					{this.state.bookshelf.map(book => {
