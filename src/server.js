@@ -58,7 +58,13 @@ app.get('/staffpicks', function(request, response) {
             // display a random book from the list
             var i = Math.floor(Math.random()*recList.length);
             var choice = recList[i];
+
+            // clear variables
             recList = null;
+            $ = null;
+            store = null;
+            url = null;
+
             response.send(choice);
 
       })
