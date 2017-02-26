@@ -59,11 +59,8 @@ app.get('/staffpicks', function(request, response) {
             var i = Math.floor(Math.random()*recList.length);
             var choice = recList[i];
 
-            // clear variables
-            recList = null;
-            $ = null;
-            store = null;
-            url = null;
+            // clear list from memory
+            recList = [];
 
             response.send(choice);
 
