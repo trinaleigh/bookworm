@@ -53,8 +53,9 @@ export default class BookSelector extends React.Component {
 		    var $extent = $xml.find('extent')
 
 		    var title = $article.text().toUpperCase() + " " + $title.text().toUpperCase();
-		    var author = $author.text();
-		    var dob = $dob.text();
+		    var author = $author.text().replace('.','');
+		    var dob = $dob.text() == '' || ["1","2"].includes($dob.text()[0]) ? 
+		    			$dob.text() : ''; // check for valid DOB;
 		    var genres = [];
 		    var topics = [];
 		    var extent = $extent.text();
@@ -71,7 +72,7 @@ export default class BookSelector extends React.Component {
 
 		    $topics.each(function() {
 		    	if (this.innerHTML != "text" && ! topics.includes(this.innerHTML)) {
-		    		topics.push(this.innerHTML);
+		    		topics.push(this.innerHTML.replace('FICTION / ','')); //remove leading text
 		    	}
 		    })
 
