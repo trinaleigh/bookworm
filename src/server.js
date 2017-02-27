@@ -36,29 +36,27 @@ app.get('/staffpicks', function(request, response) {
             var source = $('title').text()
             
             // pick a random book from the list
-            var recList = $('.abaproduct-details');
-            var i = Math.floor(Math.random()*recList.length);
-            var choice = recList[i];
+            var allBooks = $('.abaproduct-details');
+            var i = Math.floor(Math.random()*allBooks.length);
+            var choice = allBooks[i];
+            // clear list from memory
+            allBooks = [];
 
             // get book details
             var data = $(choice);
+            var title = data.children('.abaproduct-title').text();
+            var author = data.children('.abaproduct-authors').text().replace('By ','');
+            var isbn = data.children('.abaproduct-isbn').text().replace('ISBN: ','');
 
-                var title = data.children('.abaproduct-title').text();
-                var author = data.children('.abaproduct-authors').text().replace('By ','');
-                var isbn = data.children('.abaproduct-isbn').text().replace('ISBN: ','');
+            var recommendation = { 
+                title, 
+                author, 
+                isbn, 
+                url, 
+                source};
 
-                var recommendation = { 
-                    title, 
-                    author, 
-                    isbn, 
-                    url, 
-                    source};
-
-            // clear list from memory
-            recList = [];
-
-            // send to client
-            response.send(recommendation);
+        // send to client
+        response.send(recommendation);
 
       })
 
