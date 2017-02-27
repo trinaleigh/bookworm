@@ -15,6 +15,9 @@ app.get('/', function(request, response) {
   response.render('static/index');
 });
 
+// strip HTML from memory when web scraping
+function reduceString(s) { return (' ' + s).substr(1); }
+
 app.get('/staffpicks', function(request, response) {
 
   var urls = ['http://www.greenlightbookstore.com/staffpicks',
@@ -31,29 +34,28 @@ app.get('/staffpicks', function(request, response) {
       .then(function(result){
           return result.text();
       }).then(function(body) {
-            var $ = cheerio.load(body);
 
-            var source = $('title').text()
-            
-            // pick a random book from the list
-            var allBooks = $('.abaproduct-details');
-            var i = Math.floor(Math.random()*allBooks.length);
-            var choice = allBooks[i];
-            // clear list from memory
-            allBooks = [];
+          var $ = cheerio.load(body);
+          
+          // pick a random book from the list
+          var allBooks = $('.abaproduct-details');
+          var i = Math.floor(Math.random()*allBooks.length);
+          var choice = allBooks[i];
 
-            // get book details
-            var data = $(choice);
-            var title = data.children('.abaproduct-title').text();
-            var author = data.children('.abaproduct-authors').text().replace('By ','');
-            var isbn = data.children('.abaproduct-isbn').text().replace('ISBN: ','');
+          // get book details
+          var data = $(choice);
+          var title = reduceString(data.children('.abaproduct-title').text());
+          var author = reduceString(data.children('.abaproduct-authors').text().replace('By ',''));
+          var isbn = reduceString(data.children('.abaproduct-isbn').text().replace('ISBN: ',''));
 
-            var recommendation = { 
-                title, 
-                author, 
-                isbn, 
-                url, 
-                source};
+          var source = reduceString($('title').text())
+
+          var recommendation = { 
+              title, 
+              author, 
+              isbn, 
+              url, 
+              source};
 
         // send to client
         response.send(recommendation);
@@ -82,9 +84,9 @@ app.get('/bestsellers', function(request, response) {
               .children('li').first();
             
             // get book details
-            var title = book.children('p').text();
-            var author = book.children('a').last().text();
-            var isbn = String(book.children('a').first().attr('href')).split("ean=")[1];
+            var title = reduceString(book.children('p').text());
+            var author = reduceString(book.children('a').last().text());
+            var isbn = reduceString(book.children('a').first().attr('href')).split("ean=")[1];
 
             var recommendation = { 
                 title, 
