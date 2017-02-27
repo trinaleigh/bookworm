@@ -33,7 +33,7 @@ app.get('/staffpicks', function(request, response) {
       }).then(function(body) {
             var $ = cheerio.load(body);
 
-            var store = $('title').text()
+            var source = $('title').text()
 
             // get details for staff picks
             var recList = $('.abaproduct-details').map(function(){
@@ -41,15 +41,15 @@ app.get('/staffpicks', function(request, response) {
                 var data = $(this);
 
                 var title = data.children('.abaproduct-title').text();
-                var author = data.children('.abaproduct-authors').text();
-                var isbn = data.children('.abaproduct-isbn').text();
+                var author = data.children('.abaproduct-authors').text().replace('By ','');
+                var isbn = data.children('.abaproduct-isbn').text().replace('ISBN: ','');
 
                 var recommendation = { 
                     title, 
                     author, 
                     isbn, 
                     url, 
-                    store};
+                    source};
 
                 return recommendation;
 
@@ -63,6 +63,42 @@ app.get('/staffpicks', function(request, response) {
             recList = [];
 
             response.send(choice);
+
+      })
+
+});
+
+
+app.get('/bestsellers', function(request, response) {
+
+  var url = 'http://www.barnesandnoble.com/b/the-new-york-times-bestsellers/_/N-1p3n';
+  var source = 'New York Times Best Sellers'
+
+  fetch(url)
+      .then(function(result){
+          return result.text();
+      }).then(function(body) {
+            var $ = cheerio.load(body);
+
+            var book = $('.primary-content')
+              .children('#hotBooksWithDesc')
+              .first()
+              .children('#book-carousel')
+              .children('li').first();
+            
+            var title = book.children('p').text();
+
+            var author = book.children('a').last().text();
+            var isbn = String(book.children('a').first().attr('href')).split("ean=")[1];
+
+            var recommendation = { 
+                title, 
+                author, 
+                isbn, 
+                url, 
+                source};
+
+            response.send(recommendation);
 
       })
 

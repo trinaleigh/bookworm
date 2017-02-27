@@ -241,3 +241,16 @@ form {
 .loaded {
 	display: none;
 }
+
+.rec-container {
+	margin: auto;
+	display: flex;
+	direction: row;
+	width: 60%;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.rec {
+	max-width: 500px;
+}

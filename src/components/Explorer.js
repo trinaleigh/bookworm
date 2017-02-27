@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import $ from 'jquery';
 
-export default class Explorer extends React.Component {
+class Recommendation extends React.Component {
 
 	constructor(props) {
 	    super(props);
@@ -11,7 +11,8 @@ export default class Explorer extends React.Component {
 	      recommendation: "",
 	      author: "",
 	      isbn: "",
-	      url: ""
+	      url: "",
+	      source: ""
 	    };
 
 	    this.refreshData = this.refreshData.bind(this);
@@ -28,34 +29,55 @@ export default class Explorer extends React.Component {
 
   	refreshData() {
 
-	  	function library(){
-		    // access bookstore
+	  	function library(authority){
+		    // access recommendation resource
 		    return $.ajax({
-		            url: `/staffpicks`,
+		            url: `/${authority}`,
 		            dataType: 'json'         
 			})
 		};
   		
-		library()
+		library(this.props.authority)
 			.then(result => this.setState({recommendation : result.title, 
 											author: result.author, 
 											isbn: result.isbn, 
 											url: result.url, 
-											store: result.store}));
+											source: result.source}));
   	}
+	
+  	render() {
+
+	    return (
+			<div className="rec">
+				<h2>{this.props.title}</h2>
+				<p>{this.state.recommendation}</p>
+				<p>{this.state.author}</p>
+				<p>{this.state.isbn}</p>
+				<p>From <strong><a href={this.state.url} target="_blank">{this.state.source}</a></strong></p>
+				<button onClick={this.handleUpdate}>
+		    		Refresh
+				</button>
+			</div>
+	    );
+	}
+}
+
+
+export default class Explorer extends React.Component {
+
+	constructor(props) {
+	    super(props);
+  	}	
 	
   	render() {
 
 	    return (
 			<div>
 				<h1>Recommended</h1>
-				<p>{this.state.recommendation}</p>
-				<p>{this.state.author}</p>
-				<p>{this.state.isbn}</p>
-				<p>From <strong><a href={this.state.url} target="_blank">{this.state.store}</a></strong></p>
-				<button onClick={this.handleUpdate}>
-		    		Refresh
-				</button>
+				<div className="rec-container">
+					<Recommendation authority="staffpicks" title="Independent Bookstores"/>
+					<Recommendation authority="bestsellers" title="Bestseller List"/>
+				</div>
 			</div>
 	    );
 	}
