@@ -34,11 +34,14 @@ app.get('/staffpicks', function(request, response) {
             var $ = cheerio.load(body);
 
             var source = $('title').text()
+            
+            // pick a random book from the list
+            var recList = $('.abaproduct-details');
+            var i = Math.floor(Math.random()*recList.length);
+            var choice = recList[i];
 
-            // get details for staff picks
-            var recList = $('.abaproduct-details').map(function(){
-
-                var data = $(this);
+            // get book details
+            var data = $(choice);
 
                 var title = data.children('.abaproduct-title').text();
                 var author = data.children('.abaproduct-authors').text().replace('By ','');
@@ -51,18 +54,11 @@ app.get('/staffpicks', function(request, response) {
                     url, 
                     source};
 
-                return recommendation;
-
-            })
-
-            // display a random book from the list
-            var i = Math.floor(Math.random()*recList.length);
-            var choice = recList[i];
-
             // clear list from memory
             recList = [];
 
-            response.send(choice);
+            // send to client
+            response.send(recommendation);
 
       })
 
@@ -80,14 +76,15 @@ app.get('/bestsellers', function(request, response) {
       }).then(function(body) {
             var $ = cheerio.load(body);
 
+            // get the bestseller selection
             var book = $('.primary-content')
               .children('#hotBooksWithDesc')
               .first()
               .children('#book-carousel')
               .children('li').first();
             
+            // get book details
             var title = book.children('p').text();
-
             var author = book.children('a').last().text();
             var isbn = String(book.children('a').first().attr('href')).split("ean=")[1];
 
@@ -98,6 +95,7 @@ app.get('/bestsellers', function(request, response) {
                 url, 
                 source};
 
+            // send to client
             response.send(recommendation);
 
       })
