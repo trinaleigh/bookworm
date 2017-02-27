@@ -57,8 +57,18 @@ app.get('/staffpicks', function(request, response) {
               url, 
               source};
 
-        // send to client
-        response.send(recommendation);
+          // clear variables
+          $=null;
+          allBooks=[];
+          choice=null;
+          data=null;
+          title=null;
+          author=null;
+          isbn=null;
+          source=null
+
+          // send to client
+          response.send(recommendation);
 
       })
 
