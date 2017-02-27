@@ -1,6 +1,7 @@
 * {
 	--primary: #311D3F;
 	--secondary: #88304E;
+	--highlight: #E23E57;
 	--grey: #AEB6BF;
 	font-family: Helvetica;
 }
@@ -253,4 +254,16 @@ form {
 
 .rec {
 	max-width: 500px;
+	padding: 0px 10px 0px 10px;
+}
+
+.valid {
+	display: none;
+}
+
+.invalid {
+	color: var(--highlight);
+	font-weight: bold;
+	font-size: 18px;
+	padding: 0px 5px 0px 5px;
 }
