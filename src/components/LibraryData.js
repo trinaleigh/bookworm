@@ -160,18 +160,18 @@ export default class BookSelector extends React.Component {
 
 
 				<div className="data-viz">
+					<h2>Genres</h2>
 					<div className="viz-container">
-						<h2>Genres</h2>
 						<Bubbles keywords={allGenres}/>
 					</div>
 
+					<h2>Themes</h2>
 					<div className="viz-container">
-						<h2>Themes</h2>
 						<Bubbles keywords={allThemes}/>
 					</div>
 
-					<div className="viz-container">
-						<h2>Pages</h2>
+					<h2>Pages</h2>
+					<div className="viz-container" id="book-stack">
 						<CounterStack counts={this.state.bookshelf} total={pageTotal}/>
 						<span className="count">{pageTotal} p.</span>
 					</div>

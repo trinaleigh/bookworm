@@ -38,8 +38,7 @@ export default class Bubbles extends React.Component {
 		    				"children" : wordList};
 
 	  		const h = 500;
-			const w = 500;
-			const r = Math.max(h,w)/2;
+			const w = 800;
 
 			var color = d3.scaleOrdinal().range(["#311D3F", "#522546", "#88304E", "#E23E57"]);
 
@@ -47,14 +46,13 @@ export default class Bubbles extends React.Component {
 			d3.select(el).html("");
 
 			var bubble = d3.pack()
-				.size([r*2, r*2])
+				.size([w, h])
 				.padding(1.5);
 
 			var svg = d3.select(el).append("svg")
 			    .attr("width", w)
 			    .attr("height", h)
 			    .append("g")
-
 
 			var root = d3.hierarchy(wordJSON)
 			    .sum(function(d) { return d.size; })
