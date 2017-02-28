@@ -1,62 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router';
 import $ from 'jquery';
+import Scraper from './Scraper.js';
+import Searcher from './Searcher.js';
+
 
 class Recommendation extends React.Component {
 
 	constructor(props) {
 	    super(props);
 
-	    this.state = {
-	      recommendation: "",
-	      author: "",
-	      isbn: "",
-	      url: "",
-	      source: ""
-	    };
-
-	    this.refreshData = this.refreshData.bind(this);
-	    this.handleUpdate = this.handleUpdate.bind(this);
   	}	
-
-  	componentDidMount() {
-  		this.refreshData();
-  	}
-
-  	handleUpdate() {
-  		this.refreshData();
-  	}
-
-  	refreshData() {
-
-	  	function library(authority){
-		    // access recommendation resource
-		    return $.ajax({
-		            url: `/${authority}`,
-		            dataType: 'json'         
-			})
-		};
-  		
-		library(this.props.authority)
-			.then(result => this.setState({recommendation : result.title, 
-											author: result.author, 
-											isbn: result.isbn, 
-											url: result.url, 
-											source: result.source}));
-  	}
 	
   	render() {
 
 	    return (
 			<div className="rec">
 				<h2>{this.props.title}</h2>
-				<p>{this.state.recommendation}</p>
-				<p>{this.state.author}</p>
-				<p>{this.state.isbn}</p>
-				<p>From <strong><a href={this.state.url} target="_blank">{this.state.source}</a></strong></p>
-				<button onClick={this.handleUpdate}>
-		    		Refresh
-				</button>
+				<p>{this.props.recommendation}</p>
+				<p>{this.props.author}</p>
+				<p>{this.props.isbn}</p>
+				<p>From <strong><a href={this.props.url} target="_blank">{this.props.source}</a></strong></p>
 			</div>
 	    );
 	}
@@ -75,8 +39,10 @@ export default class Explorer extends React.Component {
 			<div>
 				<h1>Recommended</h1>
 				<div className="rec-container">
-					<Recommendation authority="staffpicks" title="Independent Bookstores"/>
-					<Recommendation authority="bestsellers" title="Bestseller List"/>
+					<Scraper authority="staffpicks" title="Independent Bookstore"/>
+					<Scraper authority="bestsellers" title="Bestseller List"/>
+					<Searcher genre="Fiction" topic="Animals" title="Based on History"/>
+					<Searcher genre="Nonfiction" topic="Mystery" title="Mix it Up"/>
 				</div>
 			</div>
 	    );

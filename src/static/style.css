@@ -250,11 +250,13 @@ form {
 	width: 60%;
 	align-items: flex-start;
 	justify-content: space-between;
+	flex-wrap: wrap;
 }
 
 .rec {
-	max-width: 500px;
-	padding: 0px 10px 0px 10px;
+	width: 300px;
+	padding: 0px 20px 0px 20px;
+	flex-grow: 1;
 }
 
 .valid {
