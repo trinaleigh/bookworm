@@ -72,7 +72,10 @@ export default class LibraryData extends React.Component {
 
 		    $topics.each(function() {
 		    	if (this.innerHTML != "text" && ! topics.includes(this.innerHTML)) {
-		    		topics.push(this.innerHTML.replace('FICTION / ','')); //remove leading text
+		    		topics.push(this.innerHTML
+		    			.replace('FICTION / ','')
+		    			.replace('&amp;','and')
+		    			.replace('/;','-')); //remove leading text and problematic characters
 		    	}
 		    })
 
@@ -151,7 +154,9 @@ export default class LibraryData extends React.Component {
   		var flag = "waiting"
   		if (this.props.isbns.length === this.state.bookshelf.length) {
   			flag = "loaded"
-  			recordPrefs(this.props.userid, allGenres, allThemes);
+  			if (allGenres != [] && allThemes != []){
+  				recordPrefs(this.props.userid, allGenres, allThemes);
+  			}
   		}
 
 	    return (

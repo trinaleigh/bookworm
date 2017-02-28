@@ -31,7 +31,6 @@ export default class Explorer extends React.Component {
 
 		function loadList(dblist, listType){
 			this.setState({[listType]: dblist});
-			console.log(this.state);
 		}
 
 		loadList = loadList.bind(this);
@@ -43,14 +42,19 @@ export default class Explorer extends React.Component {
 	
   	render() {
 
+  		// get a random genre and theme from user history
+  		var i1 = Math.floor(Math.random()*this.state.genres.length);
+  		var genre = this.state.genres[i1];
+  		var i2 = Math.floor(Math.random()*this.state.themes.length);
+  		var theme = this.state.themes[i2];		
+
 	    return (
 			<div>
-				<p> test: {this.state.genres}</p>
 				<h1>Recommended</h1>
 				<div className="rec-container">
 					<Scraper authority="staffpicks" title="Independent Bookstore"/>
 					<Scraper authority="bestsellers" title="Bestseller List"/>
-					<Searcher genre="Fiction" topic="Animals" title="Based on Your Library"/>
+					<Searcher genre={genre} topic={theme} title="Based on Your Library"/>
 					<Searcher genre="Nonfiction" topic="Mystery" title="Mix It Up"/>
 				</div>
 			</div>
