@@ -191,10 +191,6 @@ export default class RecEngine extends React.Component {
 		this.refreshData = this.refreshData.bind(this);
   	}
 
-  	componentDidMount() {
-		this.refreshData(this.props);
-	}
-
   	componentWillReceiveProps(nextProps) {
   		this.refreshData(nextProps);
   	}

@@ -16,7 +16,8 @@ export default class Searcher extends React.Component {
 	    };
 
 	    this.refreshData = this.refreshData.bind(this);
-  	}	
+  	}
+
 
   	componentDidMount() {
   		this.refreshData(this.props);
@@ -64,14 +65,15 @@ export default class Searcher extends React.Component {
 			})
 		};
 
-
-  		rec(props.genre, props.topic)
-    		.then(result => parseData(result))
-    		.then(result => this.setState({recommendation : result.title, 
-										author: result.author, 
-										isbn: result.isbn, 
-										url: "https://www.loc.gov", 
-										source: "Library of Congress"}));
+		if (props.genre !='' && props.topic !='') {
+	  		rec(props.genre, props.topic)
+	    		.then(result => parseData(result))
+	    		.then(result => this.setState({recommendation : result.title, 
+											author: result.author, 
+											isbn: result.isbn, 
+											url: "https://www.loc.gov", 
+											source: "Library of Congress"}));
+    	}
 	  	
   	}
 
