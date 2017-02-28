@@ -226,7 +226,7 @@ app.get('/upload/:userid/:isbn', function(request, response, next) {
     var updateDocument = function(db,callback) {
       // Get the documents collection
       var collection = db.collection('readers');
-      // Update document where a is 2, set b equal to 1
+      // Update document
       collection.updateOne({ 'userid' : userid }
         , { $push: { 'isbns' : isbn } }, function(err, result) {
         assert.equal(err, null);
@@ -237,6 +237,37 @@ app.get('/upload/:userid/:isbn', function(request, response, next) {
 
     updateDocument(db, function(){
       response.send("added isbn")
+      next();
+    })
+
+    db.close();
+  });
+
+});
+
+app.get('/record/:userid/:genres/:themes', function(request, response, next) {
+
+  var userid = request.params.userid;
+  var genres = request.params.genres;
+  var themes = request.params.themes;
+
+  MongoClient.connect(mongoUrl, function(err, db) {
+    assert.equal(null, err);
+
+    var updateDocument = function(db,callback) {
+      // Get the documents collection
+      var collection = db.collection('readers');
+      // Update document
+      collection.updateOne({ 'userid' : userid }
+        , { $set: { 'genres' : genres, 'themes' : themes } }, function(err, result) {
+        assert.equal(err, null);
+        console.log("recorded history");
+        callback()
+      });  
+    }
+
+    updateDocument(db, function(){
+      response.send("recorded history")
       next();
     })
 
@@ -257,7 +288,7 @@ app.get('/remove/:userid/:isbn', function(request, response, next) {
     var updateDocument = function(db,callback) {
       // Get the documents collection
       var collection = db.collection('readers');
-      // Update document where a is 2, set b equal to 1
+      // Update document
       collection.updateOne({ 'userid' : userid }
         , { $pull: { 'isbns' : isbn } }, function(err, result) {
         assert.equal(err, null);

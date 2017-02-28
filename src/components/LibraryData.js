@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Bubbles from './Bubbles.js';
 import CounterStack from './CounterStack.js';
 
-export default class BookSelector extends React.Component {
+export default class LibraryData extends React.Component {
 	constructor(props) {
 	    super(props);
 
@@ -113,6 +113,7 @@ export default class BookSelector extends React.Component {
 
 	render() {
 
+		// create full list of genres for downstream visualization
 		var allGenres = []
 		this.state.bookshelf.forEach(book => {
 			book.genres.forEach(genre => {
@@ -120,6 +121,7 @@ export default class BookSelector extends React.Component {
 			})
 		})
 
+		// create full list of themes for downstream visualization
 		var allThemes = []
 		this.state.bookshelf.forEach(book => {
 			book.topics.forEach(topic => {
@@ -127,9 +129,17 @@ export default class BookSelector extends React.Component {
 			})
 		})
 
-		var pageTotal = 0
-  		var allBooks = Array.from(this.state.bookshelf)
+		// add user's topics and genres to db
+		function recordPrefs(userid, genres, themes){
+		    // access user's history from mongodb
+		    return $.ajax({
+		            url: `/record/${userid}/${genres}/${themes}`,
+			})
+		};
 
+		// count page total to display
+		var allBooks = Array.from(this.state.bookshelf)
+		var pageTotal = 0
   		if (allBooks.length > 0) {
   			pageTotal = allBooks.map(a => a.pages)
   							.reduce(function(a,b){
@@ -137,9 +147,11 @@ export default class BookSelector extends React.Component {
   							},"0")
   		}
 
+  		// trigger loading screen while waiting for results
   		var flag = "waiting"
   		if (this.props.isbns.length === this.state.bookshelf.length) {
   			flag = "loaded"
+  			recordPrefs(this.props.userid, allGenres, allThemes);
   		}
 
 	    return (
