@@ -18,14 +18,9 @@ export default class Scraper extends React.Component {
 	    };
 
 	    this.refreshData = this.refreshData.bind(this);
-	    this.handleUpdate = this.handleUpdate.bind(this);
   	}	
 
   	componentDidMount() {
-  		this.refreshData();
-  	}
-
-  	handleUpdate() {
   		this.refreshData();
   	}
 
