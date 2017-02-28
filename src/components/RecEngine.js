@@ -204,7 +204,6 @@ export default class RecEngine extends React.Component {
   		// get a random genre and theme from user history
   		var i1 = Math.floor(Math.random()*props.genres.length);
   		var i2 = Math.floor(Math.random()*props.themes.length);
-  		this.setState({genre : props.genres[i1], theme : props.themes[i2] });		
 
   		// select anti-patterns from list
   		function getAnti(refArray, userArray){
@@ -219,15 +218,18 @@ export default class RecEngine extends React.Component {
   			return draw
   		}
 
-  		this.setState({antiGenre: getAnti(refGenres,props.genres), 
+  		this.setState({
+  			genre : props.genres[i1], 
+  			theme : props.themes[i2],
+  			antiGenre: getAnti(refGenres,props.genres), 
   			antiTheme: getAnti(refThemes,props.themes)});
-
-  		console.log(this.state.antiGenre);
-  		console.log(this.state.antiTheme);
 
   	}
 
   	render() {
+
+  		console.log(`query 1: ${this.state.genre}, ${this.state.theme},
+  			query 2: ${this.state.antiGenre}, ${this.state.antiTheme}`);
 
 	    return (
 			<div className="rec-container">

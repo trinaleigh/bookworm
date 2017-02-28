@@ -20,22 +20,23 @@ export default class Explorer extends React.Component {
   	}
 
 	refreshData(props){
+
 		function getList(userid, listType){
 		    // access user's isbns from mongodb
 		    return $.ajax({
 		            url: `/user/${userid}/${listType}`,
-		            dataType: 'json'        
+		            dataType: 'json'       
 			})
 		}; 
 
-		function loadList(dblist, listType){
-			this.setState({[listType]: dblist});
+		function loadLists(var1, list1, var2, list2){
+			this.setState({[var1]: list1, [var2]: list2});
 		}
 
-		loadList = loadList.bind(this);
+		loadLists = loadLists.bind(this);
 
-		getList(props.userid, "genres").then(result => loadList(result, "genres"));
-		getList(props.userid, "themes").then(result => loadList(result, "themes"));
+		Promise.all([getList(props.userid, "genres"), getList(props.userid, "themes")])
+			.then(function(value) { loadLists("genres",value[0],"themes",value[1])})
 
 	}
 	
