@@ -18,11 +18,6 @@ export default class Searcher extends React.Component {
 	    this.refreshData = this.refreshData.bind(this);
   	}
 
-
-  	componentDidMount() {
-  		this.refreshData(this.props);
-  	}
-
   	componentWillReceiveProps(nextProps) {
   		this.refreshData(nextProps);
   	}
@@ -66,6 +61,7 @@ export default class Searcher extends React.Component {
 		};
 
 		if (props.genre !='' && props.topic !='') {
+			console.log(`query: ${props.genre} + ${props.topic}`);
 	  		rec(props.genre, props.topic)
 	    		.then(result => parseData(result))
 	    		.then(result => this.setState({recommendation : result.title, 

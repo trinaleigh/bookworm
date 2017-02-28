@@ -224,9 +224,6 @@ export default class RecEngine extends React.Component {
 
   	render() {
 
-  		console.log(`query 1: ${this.state.genre}, ${this.state.theme},
-  			query 2: ${this.state.antiGenre}, ${this.state.antiTheme}`);
-
 	    return (
 			<div className="rec-container">
 				<Scraper authority="staffpicks" title="Independent Bookstore"/>
