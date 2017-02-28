@@ -37,7 +37,7 @@ export default class Bubbles extends React.Component {
 		  	var wordJSON = {"name": "keywords",
 		    				"children" : wordList};
 
-	  		const h = 500;
+	  		const h = 550;
 			const w = 800;
 
 			var color = d3.scaleOrdinal().range(["#311D3F", "#522546", "#88304E", "#E23E57"]);

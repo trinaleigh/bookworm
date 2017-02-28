@@ -51,8 +51,8 @@ export default class CounterStack extends React.Component {
 				.style("text-anchor", "middle")
 				.text(function(d) {
 					return (d.pages != 0 ? d.author.split(",")[0] : "")}) // only add label if there is a page count
-				.attr("x", function(d){return x(d.pages)/2})
-				.attr("y", h/2)
+				.attr("y", function(d){return -x(d.pages)/2}) // swap x and y to account for rotation
+				.attr("x", h/2)
 				.attr("dy", "0.5em");
 
   	}	
