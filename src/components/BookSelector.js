@@ -26,7 +26,7 @@ export default class BookSelector extends React.Component {
 		function getList(userid){
 		    // access user's isbns from mongodb
 		    return $.ajax({
-		            url: `/user/${userid}`,
+		            url: `/user/${userid}/isbns`,
 		            dataType: 'json'        
 			})
 		}; 

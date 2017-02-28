@@ -189,9 +189,10 @@ app.get('/recs/:genre/:topic', function(request,response){
 });
 
 
-app.get('/user/:userid', function(request, response) {
+app.get('/user/:userid/:listype', function(request, response) {
 
   var userid = request.params.userid;
+  var listype = request.params.listype;
 
   MongoClient.connect(mongoUrl, function(err, db) {
     assert.equal(null, err);
@@ -201,13 +202,13 @@ app.get('/user/:userid', function(request, response) {
       // Find some documents
       collection.find({'userid': userid}).toArray(function(err, docs) {
         assert.equal(err, null);
-        var userISBNs = docs[0].isbns;
-        callback(userISBNs);
+        var userList = docs[0][listype];
+        callback(userList);
       });   
     }
 
-    findDocuments(db, function(isbns){
-      response.send(isbns)});
+    findDocuments(db, function(userList){
+      response.send(userList)});
 
     db.close();
   });
@@ -248,8 +249,8 @@ app.get('/upload/:userid/:isbn', function(request, response, next) {
 app.get('/record/:userid/:genres/:themes', function(request, response, next) {
 
   var userid = request.params.userid;
-  var genres = request.params.genres;
-  var themes = request.params.themes;
+  var genres = request.params.genres.split(',');
+  var themes = request.params.themes.split(',');
 
   MongoClient.connect(mongoUrl, function(err, db) {
     assert.equal(null, err);
