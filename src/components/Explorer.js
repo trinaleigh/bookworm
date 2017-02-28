@@ -41,8 +41,8 @@ export default class Explorer extends React.Component {
 				<div className="rec-container">
 					<Scraper authority="staffpicks" title="Independent Bookstore"/>
 					<Scraper authority="bestsellers" title="Bestseller List"/>
-					<Searcher genre="Fiction" topic="Animals" title="Based on History"/>
-					<Searcher genre="Nonfiction" topic="Mystery" title="Mix it Up"/>
+					<Searcher genre="Fiction" topic="Animals" title="Based on Your Library"/>
+					<Searcher genre="Nonfiction" topic="Mystery" title="Mix It Up"/>
 				</div>
 			</div>
 	    );
