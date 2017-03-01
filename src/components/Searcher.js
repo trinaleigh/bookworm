@@ -62,7 +62,8 @@ export default class Searcher extends React.Component {
 
 		if (props.genre !='' && props.topic !='') {
 			console.log(`query: ${props.genre} + ${props.topic}`);
-	  		rec(props.genre, props.topic)
+			//remove parens for search query
+	  		rec(props.genre.replace("(","").replace(")",""), props.topic.replace("(","").replace(")",""))
 	    		.then(result => parseData(result))
 	    		.then(result => this.setState({recommendation : result.title, 
 											author: result.author, 

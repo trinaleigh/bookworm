@@ -61,7 +61,7 @@ app.get('/staffpicks', function(request, response) {
 
           // clear variables
           $=null;
-          allBooks=[];
+          allBooks=null;
           choice=null;
           data=null;
           title=null;
