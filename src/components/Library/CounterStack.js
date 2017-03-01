@@ -44,7 +44,7 @@ export default class CounterStack extends React.Component {
 				.attr("class", "bar")
 				.attr("width", function(d){return x(d.pages)})
 				.attr("height", h)
-				.style("fill", function(d) {return color(d.author)});
+				.style("fill", function(d) {return color(d.isbn)});
 
 			var text = barChart.append("text")
 				.attr("class","spine")
