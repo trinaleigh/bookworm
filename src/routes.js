@@ -3,9 +3,9 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import Layout from './components/Layout';
-import Home from './components/Home';
-import Library from './components/Library';
-import Explorer from './components/Explorer';
+import Home from './components/Home/Home';
+import Library from './components/Library/Library';
+import Explorer from './components/Explorer/Explorer';
 import NotFound from './components/NotFound';
 
 const routes = (
