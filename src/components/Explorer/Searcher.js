@@ -24,7 +24,7 @@ export default class Searcher extends React.Component {
 
   	refreshData(props) {
 
-	  	function parseData(rawData){ 
+	  	var parseData = function(rawData){ 
 		    var $xml = $(rawData);
 
 		    var $article = $xml.find('nonSort').slice(0,1);
@@ -41,16 +41,21 @@ export default class Searcher extends React.Component {
 		        title, 
 		        author};
 
+		    var handler = this.props.handler;
+
 		    return new Promise(function(resolve, reject) {      
 
-		        if (book) {
+		       	if (book.title != ' ') {
 		            resolve(book);
 		        }
 		        else {
-		            reject(Error("parsing failed"));
+		        	handler();
+		            reject(Error("no result"));
 		        }
 		    })
 		};
+
+		parseData = parseData.bind(this);
 
 	  	function rec(genre,topic){
 		    // access Library of Congress online catalog

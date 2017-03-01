@@ -20,6 +20,7 @@ export default class RecEngine extends React.Component {
 			};
 
 		this.refreshData = this.refreshData.bind(this);
+    this.noMatch = this.noMatch.bind(this);
   	}
 
     componentDidMount() {
@@ -29,6 +30,10 @@ export default class RecEngine extends React.Component {
   	componentWillReceiveProps(nextProps) {
         this.refreshData(nextProps);
   	}
+
+    noMatch() {
+      this.refreshData(this.props);
+    }
 
   	refreshData(props) {
 
@@ -63,8 +68,8 @@ export default class RecEngine extends React.Component {
 			<div className="rec-container">
 				<Scraper authority="staffpicks" title="Independent Bookstore"/>
 				<Scraper authority="bestsellers" title="Bestseller List"/>
-				<Searcher genre={this.state.genre} topic={this.state.theme} title="Based on Your Library"/>
-				<Searcher genre={this.state.antiGenre} topic={this.state.antiTheme} title="Mix It Up"/>
+				<Searcher genre={this.state.genre} topic={this.state.theme} title="Based on Your Library" handler={this.noMatch}/>
+				<Searcher genre={this.state.antiGenre} topic={this.state.antiTheme} title="For a Change" handler={this.noMatch}/>
 			</div>
 	    );
 	}
