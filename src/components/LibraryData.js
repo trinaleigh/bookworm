@@ -135,8 +135,12 @@ export default class LibraryData extends React.Component {
 		// add user's topics and genres to db
 		function recordPrefs(userid, genres, themes){
 		    // access user's history from mongodb
+
 		    return $.ajax({
-		            url: `/record/${userid}/${genres}/${themes}`,
+		    		type: 'POST',
+					data: JSON.stringify({ genres : genres, themes: themes}),
+					contentType: 'application/json',
+		            url: `/record/${userid}`
 			})
 		};
 

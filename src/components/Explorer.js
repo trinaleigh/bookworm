@@ -50,6 +50,8 @@ export default class Explorer extends React.Component {
 	
   	render() {
 
+  		console.log(this.state.genres, this.state.themes)
+
 	    return (
 			<div>
 				<h1>Recommended</h1>

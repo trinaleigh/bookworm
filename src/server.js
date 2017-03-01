@@ -6,6 +6,9 @@ var MongoClient = require('mongodb').MongoClient, assert = require('assert');
 
 var mongoUrl = process.env.MONGODB_URI;
 
+var bodyParser = require('body-parser')
+app.use( bodyParser.json() ); 
+
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/static'));
@@ -246,11 +249,11 @@ app.get('/upload/:userid/:isbn', function(request, response, next) {
 
 });
 
-app.get('/record/:userid/:genres/:themes', function(request, response, next) {
+app.post('/record/:userid', function(request, response, next) {
 
   var userid = request.params.userid;
-  var genres = request.params.genres.split(',');
-  var themes = request.params.themes.split(',');
+  var genres = request.body.genres;
+  var themes = request.body.themes;
 
   MongoClient.connect(mongoUrl, function(err, db) {
     assert.equal(null, err);
@@ -268,7 +271,7 @@ app.get('/record/:userid/:genres/:themes', function(request, response, next) {
     }
 
     updateDocument(db, function(){
-      response.send("recorded history")
+      response.send("recorded history");
       next();
     })
 
