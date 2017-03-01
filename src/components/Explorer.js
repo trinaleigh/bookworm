@@ -20,10 +20,10 @@ export default class Explorer extends React.Component {
   	}
 
   	shouldComponentUpdate(nextProps) {
-        if (nextProps.userid === this.props.userid) {
-          return false;
-        } else {
+        if (nextProps.userid !== this.props.userid || this.state.genres.length <= 0) {
           return true;
+        } else {
+          return false;
         }
       }
 
@@ -50,13 +50,20 @@ export default class Explorer extends React.Component {
 	
   	render() {
 
-  		console.log(this.state.genres, this.state.themes)
+  		let component = null;
+  		if (this.state.genres.length > 0) {
+  			component = <RecEngine genres={this.state.genres} themes= {this.state.themes} userid={this.props.userid}/>;
+  		} else {
+  			component = <div/>;
+  		}
 
 	    return (
 			<div>
 				<h1>Recommended</h1>
-				<RecEngine genres={this.state.genres} themes= {this.state.themes} userid={this.props.userid}/>
+				{component}
 			</div>
+
+	    
 	    );
 	}
 }
