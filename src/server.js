@@ -180,7 +180,7 @@ app.get('/recs/:genre/:topic', function(request,response){
   var genre = request.params.genre;
   var topic = request.params.topic;
 
-  var url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.subject=${genre}%20AND%20bath.subject=${topic}%20AND%20bath.any=text&startRecord=1&maximumRecords=1&recordSchema=mods`;
+  var url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.subject=${genre}%20AND%20bath.subject=${topic}%20AND%20bath.any=text%20AND%20bath.any=eng&startRecord=1&maximumRecords=1&recordSchema=mods`;
 
   fetch(url)
     .then(function(result) {

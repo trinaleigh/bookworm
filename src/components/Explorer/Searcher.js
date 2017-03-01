@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router';
 import $ from 'jquery';
 import Recommendation from './Recommendation.js';
+var data = require('./Categories.js');
+var refGenres = data.refGenres;
+var refThemes = data.refThemes;
 
 export default class Searcher extends React.Component {
 	constructor(props) {
@@ -22,7 +25,39 @@ export default class Searcher extends React.Component {
   		this.refreshData(nextProps);
   	}
 
+  	componentDidMount() {
+      this.refreshData(this.props);
+    }
+
   	refreshData(props) {
+
+  		// define the genre and theme search terms
+
+  		if (props.mode == 'similar') {
+	  		// get a random genre and theme from user history
+	  		var i1 = Math.floor(Math.random()*props.genres.length);
+	  		var i2 = Math.floor(Math.random()*props.themes.length);
+	  		var genre = props.genres[i1]; 
+	  		var theme = props.themes[i2];
+  		} else {
+  			// select anti-patterns from list
+  			function getAnti(refArray, userArray){
+	  			var flag = true;
+	  			while (flag) {
+	  				var n = Math.floor(Math.random()*refArray.length);
+	  				var draw = refArray[n];
+	  				if (! userArray.includes(draw)) {
+	  					flag = false;
+	  				}
+	  			}
+	  			return draw
+  			}
+
+  			var genre = getAnti(refGenres,props.genres); 
+  			var theme = getAnti(refThemes,props.themes);
+  		}
+
+  		console.log(`${props.mode} query: ${genre} + ${theme}`);
 
 	  	var parseData = function(rawData){ 
 		    var $xml = $(rawData);
@@ -41,7 +76,7 @@ export default class Searcher extends React.Component {
 		        title, 
 		        author};
 
-		    var handler = this.props.handler;
+		    var handler = this.refreshData;;
 
 		    return new Promise(function(resolve, reject) {      
 
@@ -49,7 +84,8 @@ export default class Searcher extends React.Component {
 		            resolve(book);
 		        }
 		        else {
-		        	handler();
+		        	console.log("no result - retrying")
+		        	handler(props);
 		            reject(Error("no result"));
 		        }
 		    })
@@ -65,10 +101,9 @@ export default class Searcher extends React.Component {
 			})
 		};
 
-		if (props.genre !='' && props.topic !='') {
-			console.log(`query: ${props.genre} + ${props.topic}`);
+		if (genre !='' && theme !='') {
 			//remove parens for search query
-	  		rec(props.genre.replace("(","").replace(")",""), props.topic.replace("(","").replace(")",""))
+	  		rec(genre.replace("(","").replace(")",""), theme.replace("(","").replace(")",""))
 	    		.then(result => parseData(result))
 	    		.then(result => this.setState({recommendation : result.title, 
 											author: result.author, 
