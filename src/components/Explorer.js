@@ -16,8 +16,16 @@ export default class Explorer extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-  		this.refreshData(nextProps);
+	  	this.refreshData(nextProps);
   	}
+
+  	shouldComponentUpdate(nextProps) {
+        if (nextProps.userid === this.props.userid) {
+          return false;
+        } else {
+          return true;
+        }
+      }
 
 	refreshData(props){
 
@@ -45,7 +53,7 @@ export default class Explorer extends React.Component {
 	    return (
 			<div>
 				<h1>Recommended</h1>
-				<RecEngine genres={this.state.genres} themes= {this.state.themes}/>
+				<RecEngine genres={this.state.genres} themes= {this.state.themes} userid={this.props.userid}/>
 			</div>
 	    );
 	}
