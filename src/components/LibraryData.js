@@ -154,7 +154,7 @@ export default class LibraryData extends React.Component {
   		var flag = "waiting"
   		if (this.props.isbns.length === this.state.bookshelf.length) {
   			flag = "loaded"
-  			if (allGenres != [] && allThemes != []){
+  			if (this.state.bookshelf.length > 0){
   				recordPrefs(this.props.userid, allGenres, allThemes);
   			}
   		}
