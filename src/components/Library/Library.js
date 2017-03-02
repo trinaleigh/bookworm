@@ -3,21 +3,21 @@ import { Link } from 'react-router';
 import BookSelector from './BookSelector';
 
 export default class Library extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-  }
+	constructor(props) {
+		super(props);
+		this.handleChange = this.handleChange.bind(this);
+	}
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
+	handleChange(event) {
+		this.setState({value: event.target.value});
+	}
+	render() {
 
-  render() {
     return (
-    <div>
-      <h1>Your Library</h1>
-      <BookSelector userid={this.props.userid}/>
-      </div>
-    );
-  }
+		<div>
+			<h1>Your Library</h1>
+			<BookSelector userid={this.props.userid}/>
+		</div>
+		);
+	}
 }

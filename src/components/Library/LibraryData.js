@@ -21,7 +21,6 @@ export default class LibraryData extends React.Component {
   	}
 
   	componentWillReceiveProps(nextProps) {
-  		this.setState({bookshelf: []});
   		this.refreshData(nextProps);
   	}
 
@@ -35,7 +34,7 @@ export default class LibraryData extends React.Component {
 		}; 
 
 		pullList(this.props.userid, event.target.id)
-			.then(this.props.handler(this.props));
+			.then(result => this.props.handler(this.props));
 
 	}
 
@@ -98,11 +97,9 @@ export default class LibraryData extends React.Component {
 
   		// trigger loading screen while waiting for results
   		var flag = "waiting"
-  		if (this.props.isbns.length === this.state.bookshelf.length) {
+  		if (this.props.isbns.length === this.state.bookshelf.length && this.state.bookshelf.length > 0) {
   			flag = "loaded"
-  			if (this.state.bookshelf.length > 0){
-  				recordPrefs(this.props.userid, allGenres, allThemes);
-  			}
+  			recordPrefs(this.props.userid, allGenres, allThemes);
   		}
 
 	    return (
