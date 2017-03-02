@@ -9,12 +9,12 @@ import Explorer from './components/Explorer/Explorer';
 import NotFound from './components/NotFound';
 
 const routes = (
-  <Route path="/" component={Layout}>
-    <IndexRoute component={Home}/>
-    <Route path="library" component={Library}/>
-    <Route path="explorer" component={Explorer}/>
-    <Route path="*" component={NotFound}/>
-  </Route>
+	<Route path="/" component={Layout}>
+		<IndexRoute component={Home}/>
+		<Route path="library" component={Library}/>
+		<Route path="explorer" component={Explorer}/>
+		<Route path="*" component={NotFound}/>
+	</Route>
 );
 
 export default routes;
