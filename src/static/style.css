@@ -230,6 +230,7 @@ form {
 }
 
 .waiting p {
+	display: none;
 	margin: 200px 0px 0px 0px;
 	width: 300px;
 	max-height: 300px;

@@ -167,7 +167,7 @@ app.get('/books/:isbn', function(request, response) {
   url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.isbn=${isbn}&maximumRecords=1&recordSchema=mods`;
 
   console.log('looking up book');
-  
+
   fetch(url)
     .then(function(result) {
         return result.text();
@@ -220,37 +220,6 @@ app.get('/user/:userid/:listype', function(request, response) {
 
 });
 
-
-app.get('/upload/:userid/:isbn', function(request, response, next) {
-
-  var userid = request.params.userid;
-  var isbn = request.params.isbn;
-
-  MongoClient.connect(mongoUrl, function(err, db) {
-    assert.equal(null, err);
-
-    var updateDocument = function(db,callback) {
-      // Get the documents collection
-      var collection = db.collection('readers');
-      // Update document
-      collection.updateOne({ 'userid' : userid }
-        , { $push: { 'isbns' : isbn } }, function(err, result) {
-        assert.equal(err, null);
-        console.log("added isbn");
-        callback()
-      });  
-    }
-
-    updateDocument(db, function(){
-      response.send("added isbn")
-      next();
-    })
-
-    db.close();
-  });
-
-});
-
 app.post('/record/:userid', function(request, response, next) {
 
   var userid = request.params.userid;
@@ -267,13 +236,13 @@ app.post('/record/:userid', function(request, response, next) {
       collection.updateOne({ 'userid' : userid }
         , { $set: { 'genres' : genres, 'themes' : themes } }, function(err, result) {
         assert.equal(err, null);
-        console.log("recorded history");
+        console.log("recorded subjects");
         callback()
       });  
     }
 
     updateDocument(db, function(){
-      response.send("recorded history");
+      response.send("recorded subjects");
       next();
     })
 
@@ -295,7 +264,7 @@ app.post('/bookshelf/:userid', function(request, response, next) {
       var collection = db.collection('readers');
       // Update document
       collection.updateOne({ 'userid' : userid }
-        , { $push: { 'books' : book} }, function(err, result) {
+        , { $push: { 'books' : book, 'isbns' : book.isbn} }, function(err, result) {
         assert.equal(err, null);
         console.log("added book to shelf");
         callback()

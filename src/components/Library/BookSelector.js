@@ -32,10 +32,11 @@ export default class BookSelector extends React.Component {
 		}; 
 
 		function loadList(dblist){
-			this.setState({isbns: dblist});
+			this.setState({value: '', isbns: dblist});  // load isbns and erase input box value
 		}
 
 		getList(props.userid).then(loadList.bind(this));
+
 	}
 
 
@@ -47,13 +48,6 @@ export default class BookSelector extends React.Component {
 	handleSubmit(event) {
 
 		if([10,13].includes(this.state.value.length)) {
-
-			function putList(userid, isbn){
-			    // access user's isbns from mongodb
-			    return $.ajax({
-			            url: `/upload/${userid}/${isbn}`,
-				})
-			};
 
 			function parseData(rawData, id){ 
 			    var $xml = $(rawData);
@@ -137,9 +131,7 @@ export default class BookSelector extends React.Component {
 	  		library(newIsbn)
 	        		.then(result => parseData(result, newIsbn))
 	        		.then(result => recordBook(this.props.userid, result))
-	        		.then(result => putList(this.props.userid, newIsbn))
 	        		.then(result => this.refreshData(this.props));
-						
 
 		} else {
 			this.setState({mode: 'invalid'});
