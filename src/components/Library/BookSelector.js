@@ -53,15 +53,96 @@ export default class BookSelector extends React.Component {
 			    return $.ajax({
 			            url: `/upload/${userid}/${isbn}`,
 				})
-			}; 
+			};
 
-			putList(this.props.userid, this.state.value)
-			
-			// upon submission, add book to the list
-			this.setState({value: '', isbns : this.state.isbns.concat([this.state.value])})
+			function parseData(rawData, id){ 
+			    var $xml = $(rawData);
+
+			    var $article = $xml.find('nonSort').slice(0,1);
+			    var $title = $xml.find('title').slice(0,1);
+			    var $author = $xml.find('namePart').slice(0,1);
+			    var $dob = $xml.find('namePart').slice(1,2);
+			    var $genres = $xml.find('genre')
+			    var $topics = $xml.find('topic')
+			    var $extent = $xml.find('extent')
+
+			    var title = ($article.text() != "" ? $article.text().toUpperCase() + " " : "") + $title.text().toUpperCase();
+			    var author = $author.text().replace('.','');
+			    var dob = $dob.text() == '' || ["1","2"].includes($dob.text()[0]) ? 
+			    			$dob.text() : ''; // check for valid DOB;
+			    var genres = [];
+			    var topics = [];
+			    var extent = $extent.text();
+			    var pageStart = extent.search(/\d/);
+			    var pageEnd = extent.search("p") - 1;
+			    var pages = extent.slice(pageStart,pageEnd) != "" ? extent.slice(pageStart,pageEnd) : "0"; // catch empty value
+			    var isbn = id;
+
+			    $genres.each(function() {
+			    	if (! ["text","novel","bibliography"].includes(this.innerHTML) && ! genres.includes(this.innerHTML)) {  // ignore generic tags and de-dupe
+			    		genres.push(this.innerHTML.replace('.',''));  // remove trailing period
+			    	}
+			    })
+
+			    $topics.each(function() {
+			    	if (this.innerHTML != "text" && ! topics.includes(this.innerHTML)) {
+			    		topics.push(this.innerHTML
+			    			.replace('FICTION / ','')
+			    			.replace('&amp;','and')
+			    			.replace('/;','-')); //remove leading text and problematic characters
+			    	}
+			    })
+
+			    var book = {
+			    	isbn,
+			        title, 
+			        author,
+			        dob,
+			        genres,
+			        topics,
+			        pages };
+
+			    return new Promise(function(resolve, reject) {      
+
+			        if (book) {
+			            resolve(book);
+			        }
+			        else {
+			            reject(Error("parsing failed"));
+			        }
+			    })
+			};
+
+		  	function library(isbn){
+			    // access Library of Congress online catalog
+			    return $.ajax({
+			            url: `/books/${isbn}`,
+			            dataType: 'xml'         
+				})
+			};
+
+			// add user's bookshelf to db
+			function recordBook(userid, book){
+			    // access user's history from mongodb
+			    return $.ajax({
+			    		type: 'POST',
+						data: JSON.stringify({ book : book}),
+						contentType: 'application/json',
+			            url: `/bookshelf/${userid}`
+				})
+			};
+
+			var newIsbn = this.state.value;
+
+	  		library(newIsbn)
+	        		.then(result => parseData(result, newIsbn))
+	        		.then(result => recordBook(this.props.userid, result))
+	        		.then(result => putList(this.props.userid, newIsbn))
+	        		.then(result => this.refreshData(this.props));
+						
 
 		} else {
-			this.setState({mode: 'invalid'})
+			this.setState({mode: 'invalid'});
 		}
 
 		event.preventDefault();

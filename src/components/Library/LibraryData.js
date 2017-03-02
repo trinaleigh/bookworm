@@ -41,78 +41,20 @@ export default class LibraryData extends React.Component {
 
   	refreshData(props) {
 
-	  	function parseData(rawData, id){ 
-		    var $xml = $(rawData);
-
-		    var $article = $xml.find('nonSort').slice(0,1);
-		    var $title = $xml.find('title').slice(0,1);
-		    var $author = $xml.find('namePart').slice(0,1);
-		    var $dob = $xml.find('namePart').slice(1,2);
-		    var $genres = $xml.find('genre')
-		    var $topics = $xml.find('topic')
-		    var $extent = $xml.find('extent')
-
-		    var title = $article.text().toUpperCase() + " " + $title.text().toUpperCase();
-		    var author = $author.text().replace('.','');
-		    var dob = $dob.text() == '' || ["1","2"].includes($dob.text()[0]) ? 
-		    			$dob.text() : ''; // check for valid DOB;
-		    var genres = [];
-		    var topics = [];
-		    var extent = $extent.text();
-		    var pageStart = extent.search(/\d/);
-		    var pageEnd = extent.search("p") - 1;
-		    var pages = extent.slice(pageStart,pageEnd) != "" ? extent.slice(pageStart,pageEnd) : "0"; // catch empty value
-		    var isbn = id;
-
-		    $genres.each(function() {
-		    	if (! ["text","novel","bibliography"].includes(this.innerHTML) && ! genres.includes(this.innerHTML)) {  // ignore generic tags and de-dupe
-		    		genres.push(this.innerHTML.replace('.',''));  // remove trailing period
-		    	}
-		    })
-
-		    $topics.each(function() {
-		    	if (this.innerHTML != "text" && ! topics.includes(this.innerHTML)) {
-		    		topics.push(this.innerHTML
-		    			.replace('FICTION / ','')
-		    			.replace('&amp;','and')
-		    			.replace('/;','-')); //remove leading text and problematic characters
-		    	}
-		    })
-
-		    var book = {
-		    	isbn,
-		        title, 
-		        author,
-		        dob,
-		        genres,
-		        topics,
-		        pages };
-
-		    return new Promise(function(resolve, reject) {      
-
-		        if (book) {
-		            resolve(book);
-		        }
-		        else {
-		            reject(Error("parsing failed"));
-		        }
-		    })
-		};
-
-	  	function library(isbn){
-		    // access Library of Congress online catalog
+		function getList(userid){
+		    // access user's isbns from mongodb
 		    return $.ajax({
-		            url: `/books/${isbn}`,
-		            dataType: 'xml'         
+		            url: `/user/${userid}/books`,
+		            dataType: 'json'        
 			})
-		};
+		}; 
 
-  		props.isbns.map (isbn => {
-  				library(isbn)
-        		.then(result => parseData(result, isbn))
-        		.then(result => this.setState({bookshelf : this.state.bookshelf.concat([result])}));
-	  	})
-  	}
+		function loadList(dblist){
+			this.setState({bookshelf: dblist});
+		}
+
+		getList(props.userid).then(loadList.bind(this));
+	}
 
 	render() {
 

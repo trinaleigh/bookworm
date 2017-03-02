@@ -166,6 +166,8 @@ app.get('/books/:isbn', function(request, response) {
 
   url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.isbn=${isbn}&maximumRecords=1&recordSchema=mods`;
 
+  console.log('looking up book');
+  
   fetch(url)
     .then(function(result) {
         return result.text();
@@ -280,6 +282,36 @@ app.post('/record/:userid', function(request, response, next) {
 
 });
 
+app.post('/bookshelf/:userid', function(request, response, next) {
+
+  var userid = request.params.userid;
+  var book = request.body.book;
+
+  MongoClient.connect(mongoUrl, function(err, db) {
+    assert.equal(null, err);
+
+    var updateDocument = function(db,callback) {
+      // Get the documents collection
+      var collection = db.collection('readers');
+      // Update document
+      collection.updateOne({ 'userid' : userid }
+        , { $push: { 'books' : book} }, function(err, result) {
+        assert.equal(err, null);
+        console.log("added book to shelf");
+        callback()
+      });  
+    }
+
+    updateDocument(db, function(){
+      response.send("added book to shelf");
+      next();
+    })
+
+    db.close();
+  });
+
+});
+
 
 app.get('/remove/:userid/:isbn', function(request, response, next) {
 
@@ -294,7 +326,7 @@ app.get('/remove/:userid/:isbn', function(request, response, next) {
       var collection = db.collection('readers');
       // Update document
       collection.updateOne({ 'userid' : userid }
-        , { $pull: { 'isbns' : isbn } }, function(err, result) {
+        , { $pull: { 'isbns' : isbn, 'books' : {'isbn' : isbn} } }, function(err, result) {
         assert.equal(err, null);
         console.log("removed isbn");
         callback()
