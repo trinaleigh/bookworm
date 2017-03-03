@@ -8,7 +8,7 @@ export default class BookSelector extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {value: '', isbns: [], mode: 'valid'};
+		this.state = {value: '', bookshelf: [], mode: 'valid'};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.refreshData = this.refreshData.bind(this);
@@ -26,13 +26,13 @@ export default class BookSelector extends React.Component {
 		function getList(userid){
 		    // access user's isbns from mongodb
 		    return $.ajax({
-		            url: `/user/${userid}/isbns`,
+		            url: `/user/${userid}/books`,
 		            dataType: 'json'        
 			})
 		}; 
 
 		function loadList(dblist){
-			this.setState({value: '', isbns: dblist});  // load isbns and erase input box value
+			this.setState({bookshelf: dblist});  // load isbns and erase input box value
 		}
 
 		getList(props.userid).then(loadList.bind(this));
@@ -47,7 +47,7 @@ export default class BookSelector extends React.Component {
 
 	handleSubmit(event) {
 
-		if([10,13].includes(this.state.value.length)) {
+		if([10,13].includes(this.state.value.length)) {  //isbn must be 10 or 13 digits
 
 			function parseData(rawData, id){ 
 			    var $xml = $(rawData);
@@ -127,6 +127,7 @@ export default class BookSelector extends React.Component {
 			};
 
 			var newIsbn = this.state.value;
+			this.setState({value: ''});
 
 	  		library(newIsbn)
 	        		.then(result => parseData(result, newIsbn))
@@ -142,10 +143,21 @@ export default class BookSelector extends React.Component {
 
   	render() {
 
+  		// trigger loading screen while waiting for results
+  		var flag = "waiting"
+  		if (this.state.bookshelf.length > 0) {
+  			flag = "loaded"
+  		}
+
 	    return (
+
 			<div>
 
-			  <ISBNs isbns={this.state.isbns} userid={this.props.userid} handler={this.refreshData}/>
+				<div className={flag}>
+					<p>loading...</p>
+				</div>
+
+			  	<ISBNs bookshelf={this.state.bookshelf} userid={this.props.userid} handler={this.refreshData}/>
 
 			  	<form onSubmit={this.handleSubmit}>
 					<label>

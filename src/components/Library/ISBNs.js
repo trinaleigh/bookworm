@@ -10,7 +10,7 @@ export default class ISBNs extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		if (nextProps.isbns === this.props.isbns) {
+		if (nextProps.bookshelf === this.props.bookshelf) {
 			return false;
 		} else {
 			return true;
@@ -22,7 +22,7 @@ export default class ISBNs extends React.Component {
 	    return (
 			<div>
 
-			  <LibraryData isbns={this.props.isbns} userid={this.props.userid} handler={this.props.handler} />
+			  <LibraryData bookshelf={this.props.bookshelf} userid={this.props.userid} handler={this.props.handler} />
 
 			</div>
 	    );
