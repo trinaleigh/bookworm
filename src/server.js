@@ -264,7 +264,7 @@ app.get('/remove/:userid/:isbn', function(request, response, next) {
       var collection = db.collection('readers');
       // Update document
       collection.updateOne({ 'userid' : userid }
-        , { $pull: { 'isbns' : isbn, 'books' : {'isbn' : isbn} } }, function(err, result) {
+        , { $pull: { 'books' : {'isbn' : isbn} } }, function(err, result) {
         assert.equal(err, null);
         console.log("removed isbn");
         callback()
