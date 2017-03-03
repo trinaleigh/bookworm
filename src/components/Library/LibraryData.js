@@ -73,18 +73,6 @@ export default class LibraryData extends React.Component {
 			})
 		})
 
-		// add user's topics and genres to db
-		function recordPrefs(userid, genres, themes){
-		    // access user's history from mongodb
-
-		    return $.ajax({
-		    		type: 'POST',
-					data: JSON.stringify({ genres : genres, themes: themes}),
-					contentType: 'application/json',
-		            url: `/record/${userid}`
-			})
-		};
-
 		// count page total to display
 		var allBooks = Array.from(this.state.bookshelf)
 		var pageTotal = 0
@@ -99,7 +87,6 @@ export default class LibraryData extends React.Component {
   		var flag = "waiting"
   		if (this.props.isbns.length === this.state.bookshelf.length && this.state.bookshelf.length > 0) {
   			flag = "loaded"
-  			recordPrefs(this.props.userid, allGenres, allThemes);
   		}
 
 	    return (

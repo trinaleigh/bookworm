@@ -220,37 +220,6 @@ app.get('/user/:userid/:listype', function(request, response) {
 
 });
 
-app.post('/record/:userid', function(request, response, next) {
-
-  var userid = request.params.userid;
-  var genres = request.body.genres;
-  var themes = request.body.themes;
-
-  MongoClient.connect(mongoUrl, function(err, db) {
-    assert.equal(null, err);
-
-    var updateDocument = function(db,callback) {
-      // Get the documents collection
-      var collection = db.collection('readers');
-      // Update document
-      collection.updateOne({ 'userid' : userid }
-        , { $set: { 'genres' : genres, 'themes' : themes } }, function(err, result) {
-        assert.equal(err, null);
-        console.log("recorded subjects");
-        callback()
-      });  
-    }
-
-    updateDocument(db, function(){
-      response.send("recorded subjects");
-      next();
-    })
-
-    db.close();
-  });
-
-});
-
 app.post('/bookshelf/:userid', function(request, response, next) {
 
   var userid = request.params.userid;

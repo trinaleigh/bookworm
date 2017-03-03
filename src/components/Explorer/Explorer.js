@@ -7,7 +7,7 @@ export default class Explorer extends React.Component {
 
 	constructor(props) {
 	    super(props);
-	    this.state = {genres: [], themes: []};
+	    this.state = {bookshelf: []};
 		this.refreshData = this.refreshData.bind(this);
   	}	
 
@@ -20,39 +20,51 @@ export default class Explorer extends React.Component {
   	}
 
   	shouldComponentUpdate(nextProps) {
-        if (nextProps.userid !== this.props.userid || this.state.genres.length <= 0) {
+        if (nextProps.userid !== this.props.userid || this.state.bookshelf.length <= 0) {
           return true;
         } else {
           return false;
         }
       }
 
-	refreshData(props){
+  	refreshData(props) {
 
-		function getList(userid, listType){
+		function getList(userid){
 		    // access user's isbns from mongodb
 		    return $.ajax({
-		            url: `/user/${userid}/${listType}`,
-		            dataType: 'json'       
+		            url: `/user/${userid}/books`,
+		            dataType: 'json'        
 			})
 		}; 
 
-		function loadLists(var1, list1, var2, list2){
-			this.setState({[var1]: list1, [var2]: list2});
+		function loadList(dblist){
+			this.setState({bookshelf: dblist});
 		}
 
-		loadLists = loadLists.bind(this);
-
-		Promise.all([getList(props.userid, "genres"), getList(props.userid, "themes")])
-			.then(function(value) { loadLists("genres",value[0],"themes",value[1])})
-
+		getList(props.userid).then(loadList.bind(this));
 	}
 	
   	render() {
 
+  		// create full list of genres
+		var allGenres = []
+		this.state.bookshelf.forEach(book => {
+			book.genres.forEach(genre => {
+				allGenres.push(genre);
+			})
+		})
+
+		// create full list of themes
+		var allThemes = []
+		this.state.bookshelf.forEach(book => {
+			book.topics.forEach(topic => {
+				allThemes.push(topic);
+			})
+		})
+
   		let component = null;
-  		if (this.state.genres.length > 0) {
-  			component = <RecEngine genres={this.state.genres} themes= {this.state.themes} userid={this.props.userid}/>;
+  		if (allThemes.length > 0) {
+  			component = <RecEngine genres={allGenres} themes= {allThemes} userid={this.props.userid}/>;
   		} else {
   			component = <div/>;
   		}
