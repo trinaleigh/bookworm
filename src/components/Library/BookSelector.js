@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
-import LibraryData from './LibraryData';
-import ISBNs from './ISBNs';
 import $ from 'jquery';
+import LibraryData from './LibraryData';
 
 export default class BookSelector extends React.Component {
 	
@@ -157,7 +156,7 @@ export default class BookSelector extends React.Component {
 					<p>loading...</p>
 				</div>
 
-			  	<ISBNs bookshelf={this.state.bookshelf} userid={this.props.userid} handler={this.refreshData}/>
+			  	<LibraryData bookshelf={this.state.bookshelf} userid={this.props.userid} handler={this.refreshData}/>
 
 			  	<form onSubmit={this.handleSubmit}>
 					<label>

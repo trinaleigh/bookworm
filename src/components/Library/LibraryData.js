@@ -11,6 +11,14 @@ export default class LibraryData extends React.Component {
 	    this.removeItem = this.removeItem.bind(this);
   	}	
 
+  	shouldComponentUpdate(nextProps) {
+		if (nextProps.bookshelf === this.props.bookshelf) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
   	removeItem(event) {
 
 		function pullList(userid, isbn){
