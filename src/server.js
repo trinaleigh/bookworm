@@ -193,6 +193,28 @@ app.get('/recs/:genre/:topic', function(request,response){
 
 });
 
+app.get('/lists', function(request, response) {
+
+  MongoClient.connect(mongoUrl, function(err, db) {
+    assert.equal(null, err);
+    var findDocuments = function(db,callback) {
+      // Get the documents collection
+      var collection = db.collection('readers');
+      // Find some documents
+      collection.distinct('userid', function(err, docs) {
+        assert.equal(err, null);
+        callback(docs);
+      });   
+    }
+
+    findDocuments(db, function(list){
+      response.send(list)});
+
+    db.close();
+  });
+
+});
+
 
 app.get('/user/:userid/:listype', function(request, response) {
 
