@@ -7,12 +7,17 @@ export default class Layout extends React.Component {
   
   constructor(props) {
     super(props);
-    this.state = {allProfiles: [], user: 'classics'};
+    this.state = {allProfiles: [], user: 'classics', createMode: false};
     this.handleChange = this.handleChange.bind(this);
+    this.createList = this.createList.bind(this);
   }
   
   handleChange(event) {
-    this.setState({user: event.target.value});
+  	this.setState({user: event.target.value});
+  }
+
+  createList() {
+  	this.setState({createMode: !this.state.createMode});
   }
 
   componentDidMount(){
@@ -25,14 +30,23 @@ export default class Layout extends React.Component {
     }; 
 
     function loadLists(dblist){
-    	console.log(dblist);
     	this.setState({allProfiles: dblist});  // load isbns and erase input box value
     }
 
     getLists().then(loadLists.bind(this));
   }
 
+
+
   render() {
+
+  	let addList = null;
+	if (this.state.createMode == true ) {
+		addList = <p>hiiiii</p>;
+	} else {
+		addList = <div/>;
+	}
+
     return (
       <div className="app">
         <header>
@@ -45,9 +59,10 @@ export default class Layout extends React.Component {
                 {this.state.allProfiles.map(profile => 
                 	<option value={profile}>{profile}</option>)
                 }
-
                 </select>
               </label>
+              <p onClick={this.createList}>+ create new list</p>
+              {addList}
             </form>
          </div>
         </header>
