@@ -233,7 +233,7 @@ app.post('/bookshelf/:userid', function(request, response, next) {
       var collection = db.collection('readers');
       // Update document
       collection.updateOne({ 'userid' : userid }
-        , { $push: { 'books' : book, 'isbns' : book.isbn} }, function(err, result) {
+        , { $push: { 'books' : book } }, function(err, result) {
         assert.equal(err, null);
         console.log("added book to shelf");
         callback()

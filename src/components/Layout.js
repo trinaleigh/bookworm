@@ -21,11 +21,11 @@ export default class Layout extends React.Component {
           <div id="login">
             <form>
               <label>
-                User ID:
+                Reading List:
                 <select value={this.state.value} onChange={this.handleChange}>
-                  <option value="001">001</option>
-                  <option value="002">002</option>
-                  <option value="003">003</option>
+                  <option value="001">classics</option>
+                  <option value="002">favorites</option>
+                  <option value="003">2017</option>
                 </select>
               </label>
             </form>
