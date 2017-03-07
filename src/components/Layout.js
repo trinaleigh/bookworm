@@ -72,12 +72,12 @@ class CreateModal extends React.Component {
     constructor(props) {
     super(props);
     this.state = {createMode: false, newList: '', mode: "valid"};
-    this.createModal = this.createModal.bind(this);
+    this.toggle = this.toggle.bind(this);
     this.handleEntry = this.handleEntry.bind(this);
     this.addList = this.addList.bind(this);
 	}
 
-	createModal() {
+	toggle() {
   		this.setState({createMode: !this.state.createMode});
   	}
 
@@ -112,12 +112,13 @@ class CreateModal extends React.Component {
 						<div className="waiting"/>
 						<form className="list-modal" onSubmit={this.addList}>
 							<label>
-							  <h2>Create new list: </h2> 
-							  <input type="text" name="newList" placeholder="list_name" 
-							  	value={this.state.newList} onChange={this.handleEntry}/>
+								<span className="exit" onClick={this.toggle}>X</span>
+								<h2>New list name: </h2> 
+								<input type="text" name="newList" placeholder="list_name" 
+							  		value={this.state.newList} onChange={this.handleEntry}/>
 							</label>
 							<input type="submit" value="Submit" />
-							<span className={this.state.mode}>List name already in use</span>
+							<p className={this.state.mode}>List name already in use</p>
 						</form>
 					</div>;
 		} else {
@@ -126,7 +127,7 @@ class CreateModal extends React.Component {
 
 		return (
 			<div>
-			<p className="mini-text" onClick={this.createModal}>+ create new list</p>
+			<p className="mini-text" onClick={this.toggle}>+ Create new list</p>
 			{addList}
 			</div>
 		)
