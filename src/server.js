@@ -215,6 +215,35 @@ app.get('/lists', function(request, response) {
 
 });
 
+app.get('/addlist/:listname', function(request, response, next) {
+
+	var listname = request.params.listname;
+
+	MongoClient.connect(mongoUrl, function(err, db) {
+		assert.equal(null, err);
+
+		var updateDocument = function(db,callback) {
+			// Get the documents collection
+			var collection = db.collection('readers');
+			// Update document
+			collection.insertOne({ 'userid' : listname }
+			, function(err, result) {
+				assert.equal(err, null);
+				console.log("added new list");
+				callback()
+			});  
+		}
+
+		updateDocument(db, function(){
+			response.send("added new list");
+			next();
+		})
+
+		db.close();
+	});
+
+});
+
 
 app.get('/user/:userid/:listype', function(request, response) {
 

@@ -7,21 +7,52 @@ export default class Layout extends React.Component {
   
   constructor(props) {
     super(props);
-    this.state = {allProfiles: [], user: 'classics', createMode: false};
+    this.state = {allProfiles: [], user: 'classics', createMode: false, newList: '', mode: "valid"};
+    this.refreshData = this.refreshData.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.createList = this.createList.bind(this);
+    this.createModal = this.createModal.bind(this);
+    this.handleEntry = this.handleEntry.bind(this);
+    this.addList = this.addList.bind(this);
   }
   
   handleChange(event) {
   	this.setState({user: event.target.value});
   }
 
-  createList() {
+  createModal() {
   	this.setState({createMode: !this.state.createMode});
   }
 
+  handleEntry(event) {
+  	this.setState({newList: event.target.value, mode: "valid"});
+  }
+
+  addList(event) {
+
+    function sendList(listName){
+    // access Library of Congress online catalog
+        return $.ajax({
+                url: `/addlist/${listName}`,
+        })
+    };
+
+  	if (! this.state.allProfiles.includes(this.state.newList)){
+        sendList(this.state.newList)
+            .then(this.refreshData);
+        this.setState({createMode: !this.state.createMode, newList: ''});
+                
+  	} else {
+  		this.setState({mode: "invalid"});
+  	}
+  	event.preventDefault();
+  }
+
   componentDidMount(){
-    function getLists(){
+    this.refreshData();
+  }
+
+  refreshData(){
+  	    function getLists(){
         // access user's isbns from mongodb
         return $.ajax({
                 url: `/lists`,
@@ -42,7 +73,18 @@ export default class Layout extends React.Component {
 
   	let addList = null;
 	if (this.state.createMode == true ) {
-		addList = <p>hiiiii</p>;
+		addList = <div>
+					<div className="waiting"/>
+					<form className="list-modal" onSubmit={this.addList}>
+						<label>
+						  <h2>Create new list: </h2> 
+						  <input type="text" name="newList" placeholder="list_name" 
+						  	value={this.state.newList} onChange={this.handleEntry}/>
+						</label>
+						<input type="submit" value="Submit" />
+						<span className={this.state.mode}>List name already in use</span>
+					</form>
+				</div>;
 	} else {
 		addList = <div/>;
 	}
@@ -61,7 +103,7 @@ export default class Layout extends React.Component {
                 }
                 </select>
               </label>
-              <p onClick={this.createList}>+ create new list</p>
+              <p className="mini-text" onClick={this.createModal}>+ create new list</p>
               {addList}
             </form>
          </div>
@@ -80,27 +122,27 @@ export default class Layout extends React.Component {
 
 class Navbar extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {page: 'Home'};
-    this.handleChange = this.handleChange.bind(this);
-  }
+    constructor(props) {
+        super(props);
+        this.state = {page: 'Home'};
+        this.handleChange = this.handleChange.bind(this);
+    }
 
-  handleChange(event){
-    this.setState({page: event.target.innerHTML});
-  }
+    handleChange(event){
+        this.setState({page: event.target.innerHTML});
+    }
 
-  render() {
+    render() {
     return (
       <div className = "navbar">
           <Link to="/">
-          <p onClick={this.handleChange} className={this.state.page == "Home" ? "active" : "inactive"}>Home</p>
+            <p onClick={this.handleChange} className={this.state.page == "Home" ? "active" : "inactive"}>Home</p>
           </Link>
           <Link to={`/library`}>
-          <p onClick={this.handleChange} className={this.state.page == "Library" ? "active" : "inactive"}>Library</p>
+            <p onClick={this.handleChange} className={this.state.page == "Library" ? "active" : "inactive"}>Library</p>
           </Link>
           <Link to={`/explorer`}>
-          <p onClick={this.handleChange} className={this.state.page == "Explorer" ? "active" : "inactive"}>Explorer</p>
+            <p onClick={this.handleChange} className={this.state.page == "Explorer" ? "active" : "inactive"}>Explorer</p>
           </Link>
       </div>
     )
