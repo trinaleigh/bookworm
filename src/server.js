@@ -70,6 +70,7 @@ app.get('/staffpicks', function(request, response) {
 			source=null
 
 			// send to client
+			console.log('getting staff pick')
 			response.send(recommendation);
 
 		})
@@ -108,6 +109,7 @@ app.get('/bestsellers', function(request, response) {
 		        source};
 
 		    // send to client
+		    console.log('getting bestseller')
 		    response.send(recommendation);
 
 		})
@@ -156,7 +158,11 @@ app.get('/newsfeed', function(request, response) {
 
 	// send the parsed feed data
 
-	Promise.all(urls.map(getFeed)).then(function(value) {response.send(value)})
+	Promise.all(urls.map(getFeed))
+		.then(function(value) {
+			console.log('getting news feed'); 
+			response.send(value)
+		})
 
 });
 
@@ -184,6 +190,8 @@ app.get('/recs/:genre/:topic', function(request,response){
 
 	var url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.subject=${genre}%20AND%20bath.subject=${topic}%20AND%20bath.any=text%20AND%20bath.any=eng&startRecord=1&maximumRecords=1&recordSchema=mods`;
 
+	console.log('searching LOC')
+
 	fetch(url)
 	.then(function(result) {
 	    return result.text();
@@ -208,7 +216,8 @@ app.get('/lists', function(request, response) {
     }
 
     findDocuments(db, function(list){
-      response.send(list)});
+    	console.log('getting reading lists')
+      	response.send(list)});
 
     db.close();
   });
@@ -264,6 +273,7 @@ app.get('/user/:userid/:listype', function(request, response) {
 		}
 
 		findDocuments(db, function(userList){
+			console.log('getting list data')
 			response.send(userList)});
 			db.close();
 	});
