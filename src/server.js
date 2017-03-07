@@ -116,6 +116,55 @@ app.get('/bestsellers', function(request, response) {
 
 });
 
+app.get('/awards', function(request, response) {
+
+	var url = 'http://www.keplers.com/national_book_award';
+
+	fetch(url)
+		.then(function(result){
+			return result.text();
+		}).then(function(body) {
+
+			var $ = cheerio.load(body);
+
+			// pick a random book from the list
+			var allBooks = $('.abaproduct-details');
+			var i = Math.floor(Math.random()*allBooks.length);
+			var choice = allBooks[i];
+
+			// get book details
+			var data = $(choice);
+			var title = reduceString(data.children('.abaproduct-title').text());
+			var author = reduceString(data.children('.abaproduct-authors').text().replace('By ',''));
+			var isbn = reduceString(data.children('.abaproduct-isbn').text().replace('ISBN: ',''));
+
+			var source = reduceString($('title').text())
+
+			var recommendation = { 
+			  title, 
+			  author, 
+			  isbn, 
+			  url, 
+			  source};
+
+			// clear variables
+			$=null;
+			allBooks=null;
+			choice=null;
+			data=null;
+			title=null;
+			author=null;
+			isbn=null;
+			source=null
+
+			// send to client
+			console.log('getting award winner')
+			response.send(recommendation);
+
+		})
+
+});
+
 app.get('/newsfeed', function(request, response) {
 
 	// check RSS feeds from book news sources

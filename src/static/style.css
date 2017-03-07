@@ -250,14 +250,14 @@ form {
 	margin: auto;
 	display: flex;
 	direction: row;
-	width: 75%;
+	width: 85%;
 	align-items: flex-start;
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
 
 .rec {
-	width: 350px;
+	width: 300px;
 	padding: 0px 20px 0px 20px;
 	flex-grow: 1;
 }

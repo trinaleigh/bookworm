@@ -14,7 +14,7 @@ export default class Recommendation extends React.Component {
 
 	    return (
 			<div className="rec">
-				<h2>{this.props.title}</h2>
+				<h3>{this.props.title}</h3>
 				<p>{this.props.book.recommendation}</p>
 				<p>{this.props.book.author}</p>
 				<p>{this.props.book.isbn}</p>

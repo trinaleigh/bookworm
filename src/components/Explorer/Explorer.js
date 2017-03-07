@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import $ from 'jquery';
-import RecEngine from './RecEngine.js';
+import RecDisplay from './RecDisplay.js';
 
 export default class Explorer extends React.Component {
 
@@ -70,12 +70,10 @@ export default class Explorer extends React.Component {
 
   		let component = null;
   		if (allThemes.length > 0) {
-  			component = <RecEngine genres={allGenres} themes={allThemes} authors={allAuthors} userid={this.props.userid}/>;
+  			component = <RecDisplay genres={allGenres} themes={allThemes} authors={allAuthors} userid={this.props.userid}/>;
   		} else {
   			component = <div/>;
   		}
-
-  		console.log(this.state.bookshelf);
 
 	    return (
 			<div>
