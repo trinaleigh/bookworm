@@ -96,7 +96,7 @@ export default class Searcher extends React.Component {
 	  	function rec(genre,topic){
 		    // access Library of Congress online catalog
 		    return $.ajax({
-		            url: `/recs/${genre}/${topic}'`,
+		            url: `/recs/${genre}/${topic}`,
 		            dataType: 'xml'         
 			})
 		};
