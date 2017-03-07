@@ -226,7 +226,7 @@ app.get('/addlist/:listname', function(request, response, next) {
 			// Get the documents collection
 			var collection = db.collection('readers');
 			// Update document
-			collection.insertOne({ 'userid' : listname }
+			collection.insertOne({ 'userid' : listname, 'books' : [] }
 			, function(err, result) {
 				assert.equal(err, null);
 				console.log("added new list");

@@ -14,6 +14,9 @@ export default class Bubbles extends React.Component {
   		// count keywords
 		var keywords = Array.from(this.props.keywords);
 
+		var el = ReactDOM.findDOMNode(this);
+		d3.select(el).html("");
+
 		if (keywords.length > 0) {
 
 			var wordCount = {}
@@ -41,9 +44,6 @@ export default class Bubbles extends React.Component {
 			const w = 800;
 
 			var color = d3.scaleOrdinal().range(["#311D3F", "#522546", "#88304E", "#E23E57"]);
-
-			var el = ReactDOM.findDOMNode(this);
-			d3.select(el).html("");
 
 			var bubble = d3.pack()
 				.size([w, h])
@@ -81,6 +81,16 @@ export default class Bubbles extends React.Component {
 					.attr("dy", `1em`)
 					.attr("x", `0`)
 			}
+		} else {
+
+			// if no keywords, overwrite with blank space
+			const h = 20;
+			const w = 800;
+
+			var svg = d3.select(el).append("svg")
+			    .attr("width", w)
+			    .attr("height", h)
+			    .append("g")
 		}
 	}	
 

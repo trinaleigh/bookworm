@@ -7,7 +7,7 @@ export default class BookSelector extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {value: '', bookshelf: [], mode: 'valid'};
+		this.state = {value: '', bookshelf: [], mode: 'valid', loaded: false};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.refreshData = this.refreshData.bind(this);
@@ -31,7 +31,7 @@ export default class BookSelector extends React.Component {
 		}; 
 
 		function loadList(dblist){
-			this.setState({bookshelf: dblist});  // load isbns and erase input box value
+			this.setState({bookshelf: dblist, loaded: true});  // load isbns
 		}
 
 		getList(props.userid).then(loadList.bind(this));
@@ -126,7 +126,7 @@ export default class BookSelector extends React.Component {
 			};
 
 			var newIsbn = this.state.value;
-			this.setState({value: ''});
+			this.setState({value: ''});  // erase input box value
 
 	  		library(newIsbn)
 	        		.then(result => parseData(result, newIsbn))
@@ -144,7 +144,7 @@ export default class BookSelector extends React.Component {
 
   		// trigger loading screen while waiting for results
   		var flag = "waiting"
-  		if (this.state.bookshelf.length > 0) {
+  		if (this.state.loaded == true) {
   			flag = "loaded"
   		}
 
