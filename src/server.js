@@ -183,14 +183,31 @@ app.get('/books/:isbn', function(request, response) {
 
 });
 
-app.get('/recs/:genre/:topic', function(request,response){
+app.get('/srecs/:genre/:topic', function(request,response){
 
 	var genre = request.params.genre;
 	var topic = request.params.topic;
 
 	var url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.subject=${genre}%20AND%20bath.subject=${topic}%20AND%20bath.any=text%20AND%20bath.any=eng&startRecord=1&maximumRecords=1&recordSchema=mods`;
 
-	console.log('searching LOC')
+	console.log('searching LOC by subject')
+
+	fetch(url)
+	.then(function(result) {
+	    return result.text();
+	}).then(function(body) {
+	    response.send(body);
+	});
+
+});
+
+app.get('/arecs/:author', function(request,response){
+
+	var author = request.params.author;
+
+	var url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.author=${author}%20AND%20bath.any=text%20AND%20bath.any=eng&startRecord=1&maximumRecords=1&recordSchema=mods`;
+
+	console.log('searching LOC by author')
 
 	fetch(url)
 	.then(function(result) {

@@ -11,11 +11,11 @@ export default class Searcher extends React.Component {
 	    super(props);
 
 	    this.state = {
-	      recommendation: "",
-	      author: "",
-	      isbn: "",
-	      url: "",
-	      source: ""
+			recommendation: "",
+			author: "",
+			isbn: "",
+			url: "",
+			source: ""
 	    };
 
 	    this.refreshData = this.refreshData.bind(this);
@@ -31,33 +31,38 @@ export default class Searcher extends React.Component {
 
   	refreshData(props) {
 
+  		var genre = '';
+  		var theme = '';
+  		var author = '';
   		// define the genre and theme search terms
 
   		if (props.mode == 'similar') {
 	  		// get a random genre and theme from user history
-	  		var i1 = Math.floor(Math.random()*props.genres.length);
-	  		var i2 = Math.floor(Math.random()*props.themes.length);
-	  		var genre = props.genres[i1]; 
-	  		var theme = props.themes[i2];
-  		} else {
+	  		let i1 = Math.floor(Math.random()*props.genres.length);
+	  		let i2 = Math.floor(Math.random()*props.themes.length);
+	  		genre = props.genres[i1]; 
+	  		theme = props.themes[i2];
+  		} else if (props.mode == 'dissimilar') {
   			// select anti-patterns from list
   			function getAnti(refArray, userArray){
 	  			var flag = true;
 	  			while (flag) {
-	  				var n = Math.floor(Math.random()*refArray.length);
-	  				var draw = refArray[n];
+	  				let i = Math.floor(Math.random()*refArray.length);
+	  				var draw = refArray[i];
 	  				if (! userArray.includes(draw)) {
 	  					flag = false;
 	  				}
 	  			}
 	  			return draw
   			}
-
-  			var genre = getAnti(refGenres,props.genres); 
-  			var theme = getAnti(refThemes,props.themes);
+  			genre = getAnti(refGenres,props.genres); 
+  			theme = getAnti(refThemes,props.themes);
+  		} else {
+  			let i = Math.floor(Math.random()*props.authors.length);
+  			author = props.authors[i];
   		}
 
-  		console.log(`${props.mode} query: ${genre} + ${theme}`);
+  		console.log(`${props.mode} query: ${props.mode == 'author' ? author : genre + " + " + theme}`);
 
 	  	var parseData = function(rawData){ 
 		    var $xml = $(rawData);
@@ -93,23 +98,39 @@ export default class Searcher extends React.Component {
 
 		parseData = parseData.bind(this);
 
-	  	function rec(genre,topic){
+	  	function subjectRec(genre,topic){
 		    // access Library of Congress online catalog
 		    return $.ajax({
-		            url: `/recs/${genre}/${topic}`,
+		            url: `/srecs/${genre}/${topic}`,
+		            dataType: 'xml'         
+			})
+		};
+
+		function authorRec(genre,topic){
+		    // access Library of Congress online catalog
+		    return $.ajax({
+		            url: `/arecs/${author}`,
 		            dataType: 'xml'         
 			})
 		};
 
 		if (genre !='' && theme !='') {
 			//remove parens for search query
-	  		rec(genre.replace("(","").replace(")",""), theme.replace("(","").replace(")",""))
+	  		subjectRec(genre.replace("(","").replace(")",""), theme.replace("(","").replace(")",""))
 	    		.then(result => parseData(result))
 	    		.then(result => this.setState({recommendation : result.title, 
 											author: result.author, 
 											isbn: result.isbn, 
 											url: "https://www.loc.gov", 
 											source: "Library of Congress"}));
+    	} else if (author != '') {
+	  		authorRec(author.split(" (")[0])
+	    		.then(result => parseData(result))
+	    		.then(result => this.setState({recommendation : result.title, 
+											author: result.author, 
+											isbn: result.isbn, 
+											url: "https://www.loc.gov", 
+											source: "Library of Congress"}));    		
     	}
 	  	
   	}

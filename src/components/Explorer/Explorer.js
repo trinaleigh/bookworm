@@ -20,7 +20,7 @@ export default class Explorer extends React.Component {
   	}
 
   	shouldComponentUpdate(nextProps) {
-        if (nextProps.userid !== this.props.userid || this.state.bookshelf.length <= 0) {
+        if (nextProps.userid === this.props.userid || this.state.bookshelf.length <= 0) {
           return true;
         } else {
           return false;
@@ -62,12 +62,20 @@ export default class Explorer extends React.Component {
 			})
 		})
 
+		// create full list of authors
+		var allAuthors = []
+		this.state.bookshelf.forEach(book => {
+			allAuthors.push(book.author);
+		})
+
   		let component = null;
   		if (allThemes.length > 0) {
-  			component = <RecEngine genres={allGenres} themes= {allThemes} userid={this.props.userid}/>;
+  			component = <RecEngine genres={allGenres} themes={allThemes} authors={allAuthors} userid={this.props.userid}/>;
   		} else {
   			component = <div/>;
   		}
+
+  		console.log(this.state.bookshelf);
 
 	    return (
 			<div>
