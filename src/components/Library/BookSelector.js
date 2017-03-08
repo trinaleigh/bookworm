@@ -7,7 +7,7 @@ export default class BookSelector extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {value: '', bookshelf: [], mode: 'valid', loaded: false};
+		this.state = {value: '', bookshelf: [], mode: 'valid', loaded: 'waiting'};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.refreshData = this.refreshData.bind(this);
@@ -22,6 +22,7 @@ export default class BookSelector extends React.Component {
   	}
 
 	refreshData(props){
+		
 		function getList(userid){
 		    // access user's isbns from mongodb
 		    return $.ajax({
@@ -31,7 +32,7 @@ export default class BookSelector extends React.Component {
 		}; 
 
 		function loadList(dblist){
-			this.setState({bookshelf: dblist, loaded: true});  // load isbns
+			this.setState({bookshelf: dblist, loaded: 'loaded'});  // load isbns and turn off loading screen
 		}
 
 		getList(props.userid).then(loadList.bind(this));
@@ -126,7 +127,7 @@ export default class BookSelector extends React.Component {
 			};
 
 			var newIsbn = this.state.value;
-			this.setState({value: ''});  // erase input box value
+			this.setState({value: '', loaded: 'waiting'});  // erase input box value
 
 	  		library(newIsbn)
 	        		.then(result => parseData(result, newIsbn))
@@ -142,17 +143,11 @@ export default class BookSelector extends React.Component {
 
   	render() {
 
-  		// trigger loading screen while waiting for results
-  		var flag = 'waiting'
-  		if (this.state.loaded == true) {
-  			flag = 'loaded'
-  		}
-
 	    return (
 
 			<div>
 
-				<div className={flag}>
+				<div className={this.state.loaded}>
 					<p>loading...</p>
 				</div>
 
