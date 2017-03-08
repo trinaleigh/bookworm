@@ -10,7 +10,8 @@ pages:
 * explorer - provides book recommendations from a number of sources:
 	- scrapes independent bookstore websites, using "employee picks" sections to provide book recommendations
 	- scrapes bestseller list
-	- searches Library of Congress catalog to provide two recommendations: 1) similar to user history, 2) dissimilar to user history
+	- scrapes National Book Award winner
+	- searches Library of Congress catalog to provide three recommendations: 1) similar to user history, 2) dissimilar to user history, 3) from favorite authors
 
 ## dependencies
 
