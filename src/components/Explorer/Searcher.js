@@ -106,7 +106,7 @@ export default class Searcher extends React.Component {
 			})
 		};
 
-		function authorRec(genre,topic){
+		function authorRec(author){
 		    // access Library of Congress online catalog
 		    return $.ajax({
 		            url: `/arecs/${author}`,
@@ -116,7 +116,7 @@ export default class Searcher extends React.Component {
 
 		if (genre !='' && theme !='') {
 			//remove parens for search query
-	  		subjectRec(genre.replace("(","").replace(")",""), theme.replace("(","").replace(")",""))
+	  		subjectRec(genre.replace(/\(|\)/g,''), theme.replace(/\(|\)/g,''))
 	    		.then(result => parseData(result))
 	    		.then(result => this.setState({recommendation : result.title, 
 											author: result.author, 
@@ -124,7 +124,8 @@ export default class Searcher extends React.Component {
 											url: "https://www.loc.gov", 
 											source: "Library of Congress"}));
     	} else if (author != '') {
-	  		authorRec(author.split(" (")[0])
+    		// remove author alias and periods for search query
+	  		authorRec(author.split(' (')[0].replace(/\./g,''))
 	    		.then(result => parseData(result))
 	    		.then(result => this.setState({recommendation : result.title, 
 											author: result.author, 

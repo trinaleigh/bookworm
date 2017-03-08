@@ -236,6 +236,7 @@ app.get('/srecs/:genre/:topic', function(request,response){
 
 	var genre = request.params.genre;
 	var topic = request.params.topic;
+	console.log(genre, topic);
 
 	var url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.subject=${genre}%20AND%20bath.subject=${topic}%20AND%20bath.any=text%20AND%20bath.any=eng&startRecord=1&maximumRecords=1&recordSchema=mods`;
 
@@ -253,6 +254,7 @@ app.get('/srecs/:genre/:topic', function(request,response){
 app.get('/arecs/:author', function(request,response){
 
 	var author = request.params.author;
+	console.log(author);
 
 	var url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.author=${author}%20AND%20bath.any=text%20AND%20bath.any=eng&startRecord=1&maximumRecords=1&recordSchema=mods`;
 
