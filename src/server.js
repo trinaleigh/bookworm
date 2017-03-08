@@ -99,7 +99,7 @@ app.get('/bestsellers', function(request, response) {
 		    // get book details
 		    var title = reduceString(book.children('p').text());
 		    var author = reduceString(book.children('a').last().text());
-		    var isbn = reduceString(book.children('a').first().attr('href')).split("ean=")[1];
+		    var isbn = reduceString(book.children('a').first().attr('href')).split('ean=')[1];
 
 		    var recommendation = { 
 		        title, 
@@ -199,7 +199,7 @@ app.get('/newsfeed', function(request, response) {
 			if (feedItem) {
 				resolve(feedItem);
 			} else {
-				reject(Error("newsfeed failed"));
+				reject(Error('newsfeed failed'));
 			}
 
 		})
@@ -236,7 +236,6 @@ app.get('/srecs/:genre/:topic', function(request,response){
 
 	var genre = request.params.genre;
 	var topic = request.params.topic;
-	console.log(genre, topic);
 
 	var url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.subject=${genre}%20AND%20bath.subject=${topic}%20AND%20bath.any=text%20AND%20bath.any=eng&startRecord=1&maximumRecords=1&recordSchema=mods`;
 
@@ -254,7 +253,6 @@ app.get('/srecs/:genre/:topic', function(request,response){
 app.get('/arecs/:author', function(request,response){
 
 	var author = request.params.author;
-	console.log(author);
 
 	var url = `http://lx2.loc.gov:210/lcdb?version=1.1&operation=searchRetrieve&query=bath.author=${author}%20AND%20bath.any=text%20AND%20bath.any=eng&startRecord=1&maximumRecords=1&recordSchema=mods`;
 
@@ -306,13 +304,13 @@ app.get('/addlist/:listname', function(request, response, next) {
 			collection.insertOne({ 'userid' : listname, 'books' : [] }
 			, function(err, result) {
 				assert.equal(err, null);
-				console.log("added new list");
+				console.log('added new list');
 				callback()
 			});  
 		}
 
 		updateDocument(db, function(){
-			response.send("added new list");
+			response.send('added new list');
 			next();
 		})
 
@@ -363,13 +361,13 @@ app.post('/bookshelf/:userid', function(request, response, next) {
 			collection.updateOne({ 'userid' : userid }
 			, { $push: { 'books' : book } }, function(err, result) {
 				assert.equal(err, null);
-				console.log("added book to shelf");
+				console.log('added book to shelf');
 				callback()
 			});  
 		}
 
 		updateDocument(db, function(){
-			response.send("added book to shelf");
+			response.send('added book to shelf');
 			next();
 		})
 
@@ -394,13 +392,13 @@ app.get('/remove/:userid/:isbn', function(request, response, next) {
 			collection.updateOne({ 'userid' : userid }
 			, { $pull: { 'books' : {'isbn' : isbn} } }, function(err, result) {
 				assert.equal(err, null);
-				console.log("removed isbn");
+				console.log('removed isbn');
 				callback()
 			});  
 		}
 
 		updateDocument(db, function(){
-			response.send("removed isbn")
+			response.send('removed isbn')
 			next();
 		})
 
