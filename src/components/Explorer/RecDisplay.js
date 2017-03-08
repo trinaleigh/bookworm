@@ -17,9 +17,9 @@ export default class RecDisplay extends React.Component {
 	    	<div>
 	    	<h2>Based on Your Library</h2>
 			<div className="rec-container">
-				<Searcher authors= {this.props.authors} title="Favorite Authors" mode='author'/>
-				<Searcher genres={this.props.genres} themes= {this.props.themes} title="Common Themes" mode='similar'/>
-				<Searcher genres={this.props.genres} themes= {this.props.themes} title="For a Change" mode='dissimilar'/>
+				<Searcher authors= {this.props.authors} title="Favorite Authors" mode="author"/>
+				<Searcher genres={this.props.genres} themes= {this.props.themes} title="Common Themes" mode="similar"/>
+				<Searcher genres={this.props.genres} themes= {this.props.themes} title="For a Change" mode="dissimilar"/>
 			</div>
 			<h2>Community Suggestions</h2>
 			<div className="rec-container">

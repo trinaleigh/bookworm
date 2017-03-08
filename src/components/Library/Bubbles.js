@@ -71,13 +71,13 @@ export default class Bubbles extends React.Component {
 				.style("fill", function (d) {return color(d.data.name)})
 
 			var text = node.append("text")
-				.attr("y", function(d){return `${d.data.name.split(' ').length/-2}em`})
+				.attr("y", function(d){return `${d.data.name.split(" ").length/-2}em`})
 				.style("text-anchor", "middle")
 				.attr("class","chart_label")
 
 			for (let i = 0; i <4 ; i++){
 				text.append("tspan")    
-					.text(function(d) { return d.data.name.split(' ')[i]; })
+					.text(function(d) { return d.data.name.split(" ")[i]; })
 					.attr("dy", `1em`)
 					.attr("x", `0`)
 			}

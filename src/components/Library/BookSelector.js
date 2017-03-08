@@ -59,26 +59,26 @@ export default class BookSelector extends React.Component {
 			    var $topics = $xml.find('topic')
 			    var $extent = $xml.find('extent')
 
-			    var title = ($article.text() != "" ? $article.text().toUpperCase() + " " : "") + $title.text().toUpperCase();
+			    var title = ($article.text() != '' ? $article.text().toUpperCase() + ' ' : '') + $title.text().toUpperCase();
 			    var author = $author.text().replace('.','');
-			    var dob = $dob.text() == '' || ["1","2"].includes($dob.text()[0]) ? 
+			    var dob = $dob.text() == '' || ['1','2'].includes($dob.text()[0]) ? 
 			    			$dob.text() : ''; // check for valid DOB;
 			    var genres = [];
 			    var topics = [];
 			    var extent = $extent.text();
 			    var pageStart = extent.search(/\d/);
-			    var pageEnd = extent.search("p") - 1;
-			    var pages = extent.slice(pageStart,pageEnd) != "" ? extent.slice(pageStart,pageEnd) : "0"; // catch empty value
+			    var pageEnd = extent.search('p') - 1;
+			    var pages = extent.slice(pageStart,pageEnd) != '' ? extent.slice(pageStart,pageEnd) : '0'; // catch empty value
 			    var isbn = id;
 
 			    $genres.each(function() {
-			    	if (! ["text","novel","bibliography"].includes(this.innerHTML) && ! genres.includes(this.innerHTML)) {  // ignore generic tags and de-dupe
+			    	if (! ['text','novel','bibliography'].includes(this.innerHTML) && ! genres.includes(this.innerHTML)) {  // ignore generic tags and de-dupe
 			    		genres.push(this.innerHTML.replace('.',''));  // remove trailing period
 			    	}
 			    })
 
 			    $topics.each(function() {
-			    	if (this.innerHTML != "text" && ! topics.includes(this.innerHTML)) {
+			    	if (this.innerHTML != 'text' && ! topics.includes(this.innerHTML)) {
 			    		topics.push(this.innerHTML
 			    			.replace('FICTION / ','')
 			    			.replace('&amp;','and')
@@ -101,7 +101,7 @@ export default class BookSelector extends React.Component {
 			            resolve(book);
 			        }
 			        else {
-			            reject(Error("parsing failed"));
+			            reject(Error('parsing failed'));
 			        }
 			    })
 			};
@@ -143,9 +143,9 @@ export default class BookSelector extends React.Component {
   	render() {
 
   		// trigger loading screen while waiting for results
-  		var flag = "waiting"
+  		var flag = 'waiting'
   		if (this.state.loaded == true) {
-  			flag = "loaded"
+  			flag = 'loaded'
   		}
 
 	    return (

@@ -7,7 +7,7 @@ export default class Layout extends React.Component {
   
 	constructor(props) {
 	    super(props);
-	    this.state = {allProfiles: [], user: 'classics', createMode: false, newList: '', mode: "valid"};
+	    this.state = {allProfiles: [], user: 'classics', createMode: false, newList: '', mode: 'valid'};
 	    this.refreshData = this.refreshData.bind(this);
 	    this.handleChange = this.handleChange.bind(this);
 	}
@@ -71,7 +71,7 @@ class CreateModal extends React.Component {
 
     constructor(props) {
     super(props);
-    this.state = {createMode: false, newList: '', mode: "valid"};
+    this.state = {createMode: false, newList: '', mode: 'valid'};
     this.toggle = this.toggle.bind(this);
     this.handleEntry = this.handleEntry.bind(this);
     this.addList = this.addList.bind(this);
@@ -82,7 +82,7 @@ class CreateModal extends React.Component {
   	}
 
 	handleEntry(event) {
-		this.setState({newList: event.target.value, mode: "valid"});
+		this.setState({newList: event.target.value, mode: 'valid'});
 	}
 
 	addList(event) {
@@ -100,7 +100,7 @@ class CreateModal extends React.Component {
 		    this.setState({createMode: !this.state.createMode, newList: ''});
 		            
 			} else {
-				this.setState({mode: "invalid"});
+				this.setState({mode: 'invalid'});
 			}
 			event.preventDefault();
 	}

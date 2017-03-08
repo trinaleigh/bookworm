@@ -11,11 +11,11 @@ export default class Searcher extends React.Component {
 	    super(props);
 
 	    this.state = {
-			recommendation: "",
-			author: "",
-			isbn: "",
-			url: "",
-			source: ""
+			recommendation: '',
+			author: '',
+			isbn: '',
+			url: '',
+			source: ''
 	    };
 
 	    this.refreshData = this.refreshData.bind(this);
@@ -62,7 +62,7 @@ export default class Searcher extends React.Component {
   			author = props.authors[i];
   		}
 
-  		console.log(`${props.mode} query: ${props.mode == 'author' ? author : genre + " + " + theme}`);
+  		console.log(`${props.mode} query: ${props.mode == 'author' ? author : genre + ' + ' + theme}`);
 
 	  	var parseData = function(rawData){ 
 		    var $xml = $(rawData);
@@ -72,7 +72,7 @@ export default class Searcher extends React.Component {
 		    var $author = $xml.find('namePart').slice(0,1);
 		    var $isbn = $xml.find('identifier').slice(0,1);
 
-		    var title = $article.text() + " " + $title.text();
+		    var title = $article.text() + ' ' + $title.text();
 		    var author = $author.text().replace('.','');
 		    var isbn = $isbn.text().replace(/\D/g,'');
 
@@ -89,9 +89,9 @@ export default class Searcher extends React.Component {
 		            resolve(book);
 		        }
 		        else {
-		        	console.log("no result - retrying")
+		        	console.log('no result - retrying')
 		        	handler(props);
-		            reject(Error("no result"));
+		            reject(Error('no result'));
 		        }
 		    })
 		};
@@ -121,8 +121,8 @@ export default class Searcher extends React.Component {
 	    		.then(result => this.setState({recommendation : result.title, 
 											author: result.author, 
 											isbn: result.isbn, 
-											url: "https://www.loc.gov", 
-											source: "Library of Congress"}));
+											url: 'https://www.loc.gov', 
+											source: 'Library of Congress'}));
     	} else if (author != '') {
     		// remove author alias and periods for search query
 	  		authorRec(author.split(' (')[0].replace(/\./g,''))
@@ -130,8 +130,8 @@ export default class Searcher extends React.Component {
 	    		.then(result => this.setState({recommendation : result.title, 
 											author: result.author, 
 											isbn: result.isbn, 
-											url: "https://www.loc.gov", 
-											source: "Library of Congress"}));    		
+											url: 'https://www.loc.gov', 
+											source: 'Library of Congress'}));    		
     	}
 	  	
   	}

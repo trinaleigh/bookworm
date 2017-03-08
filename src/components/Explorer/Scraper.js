@@ -3,18 +3,17 @@ import { Link } from 'react-router';
 import $ from 'jquery';
 import Recommendation from './Recommendation.js';
 
-
 export default class Scraper extends React.Component {
 
 	constructor(props) {
 	    super(props);
 
 	    this.state = {
-	      recommendation: "",
-	      author: "",
-	      isbn: "",
-	      url: "",
-	      source: ""
+	      recommendation: '',
+	      author: '',
+	      isbn: '',
+	      url: '',
+	      source: ''
 	    };
 
 	    this.refreshData = this.refreshData.bind(this);
