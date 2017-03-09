@@ -18,10 +18,11 @@ body {
 }
 
 header {
-	padding: 20px;
+	padding: 10px;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
 }
 
 .main-content {
@@ -274,7 +275,7 @@ form {
 }
 
 .mini-text {
-	font-size: 10px;
+	font-size: 14px;
 	padding: 0;
 	margin: 5px;
 	text-align: right;
